@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magna Hardware — Sales Commission</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .activity-list{display:flex;flex-direction:column;}
+  .activity-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-soft);}
+  .activity-item:last-child{border-bottom:none;padding-bottom:0;}
+  .activity-dot{width:8px;height:8px;border-radius:50%;background:var(--up);flex-shrink:0;box-shadow:0 0 0 3px var(--up-bg);}
+  .activity-text{flex:1;font-size:13.5px;color:var(--text-secondary);}
+  .activity-text b{color:var(--text-primary);}
+  .activity-time{font-size:11.5px;color:var(--text-muted);white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="#151420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Homepage
+      </a>
+      <a class="nav-item" href="discount-settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+        Discount
+      </a>
+      <a class="nav-item active" href="sales-commission.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
+        Sales Commission
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">R</div>
+      <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <h1>Sales Commission</h1>
+        <p>National sales status, per-salesman commissions, and rule configuration.</p>
+      </div>
+      <div class="live-badge"><span class="live-dot"></span>System Live</div>
+    </div>
+
+    <!-- National Sales Status -->
+    <section class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Sales</div>
+        <div class="stat-row"><div class="stat-value">Rp 4.6B</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Sales Debt</div>
+        <div class="stat-row"><div class="stat-value">Rp 320M</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Rank Commission</div>
+        <div class="stat-row"><div class="stat-value">#2 <span style="font-size:14px;color:var(--text-muted);font-weight:600;">of 6 Regions</span></div></div>
+      </div>
+    </section>
+
+    <!-- Sales-Man Commission Status -->
+    <section class="panel">
+      <div class="panel-head"><h3>Sales-Man Commission Status</h3></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sales Rep</th><th>Target Sales</th><th>Total Sales</th><th>Rank Comm.</th><th>Earned Comm.</th></tr></thead>
+          <tbody>
+            <tr><td class="cell-strong">Andi Wijaya</td><td>Rp 500M</td><td>Rp 540M</td><td><span class="rank-badge gold">#1</span></td><td class="cell-strong">Rp 27M</td></tr>
+            <tr><td class="cell-strong">Citra Dewi</td><td>Rp 400M</td><td>Rp 465M</td><td><span class="rank-badge">#2</span></td><td class="cell-strong">Rp 23M</td></tr>
+            <tr><td class="cell-strong">Eka Putra</td><td>Rp 420M</td><td>Rp 445M</td><td><span class="rank-badge">#3</span></td><td class="cell-strong">Rp 21M</td></tr>
+            <tr><td class="cell-strong">Budi Prakoso</td><td>Rp 450M</td><td>Rp 410M</td><td><span class="rank-badge">#4</span></td><td class="cell-strong">Rp 16M</td></tr>
+            <tr><td class="cell-strong">Dedi Kurniawan</td><td>Rp 350M</td><td>Rp 300M</td><td><span class="rank-badge">#6</span></td><td class="cell-strong">Rp 11M</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sales-Man Commission Status (Special Product) -->
+    <section class="panel">
+      <div class="panel-head"><h3>Sales-Man Commission Status <span class="sub" style="display:inline;">(Special Product)</span></h3></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sales Rep</th><th>Target Sales</th><th>Total Sales</th><th>Rank Comm.</th><th>Earned Comm.</th></tr></thead>
+          <tbody>
+            <tr><td class="cell-strong">Andi Wijaya</td><td>Rp 120M</td><td>Rp 132M</td><td><span class="rank-badge gold">#1</span></td><td class="cell-strong">Rp 9.5M</td></tr>
+            <tr><td class="cell-strong">Eka Putra</td><td>Rp 110M</td><td>Rp 121M</td><td><span class="rank-badge">#2</span></td><td class="cell-strong">Rp 8.4M</td></tr>
+            <tr><td class="cell-strong">Citra Dewi</td><td>Rp 100M</td><td>Rp 98M</td><td><span class="rank-badge">#3</span></td><td class="cell-strong">Rp 6.6M</td></tr>
+            <tr><td class="cell-strong">Dedi Kurniawan</td><td>Rp 95M</td><td>Rp 88M</td><td><span class="rank-badge">#4</span></td><td class="cell-strong">Rp 5.6M</td></tr>
+            <tr><td class="cell-strong">Budi Prakoso</td><td>Rp 90M</td><td>Rp 76M</td><td><span class="rank-badge">#5</span></td><td class="cell-strong">Rp 4.9M</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="content-grid">
+      <!-- Update or Create New Rule Commission -->
+      <section class="panel">
+        <div class="panel-head"><h3>Update or Create New Rule Commission</h3></div>
+        <div class="tabs">
+          <div class="tab-item active">National</div>
+          <div class="tab-item">Regional</div>
+          <div class="tab-item">SP</div>
+        </div>
+        <div class="form-card">
+          <div class="field-grid">
+            <div class="field">
+              <label>Rule Name</label>
+              <input type="text" placeholder="e.g. Q3 Regional Incentive">
+            </div>
+            <div class="field">
+              <label>Commission Rate</label>
+              <input type="text" placeholder="e.g. 3.5%">
+            </div>
+            <div class="field">
+              <label>Target Sales</label>
+              <input type="text" placeholder="e.g. Rp 500,000,000">
+            </div>
+            <div class="field">
+              <label>Effective Period</label>
+              <input type="text" placeholder="e.g. Q3 2026">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-ghost">Cancel</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Activity -->
+      <section class="panel">
+        <div class="panel-head"><h3>Recent Activity</h3></div>
+        <div class="activity-list">
+          <div class="activity-item"><span class="activity-dot"></span><div class="activity-text"><b>Andi Wijaya</b> submitted Q3 sales report for the Western region</div><span class="activity-time">2h ago</span></div>
+          <div class="activity-item"><span class="activity-dot"></span><div class="activity-text">"Power Tools Bundle" discount rule updated to <b>15%</b></div><span class="activity-time">5h ago</span></div>
+          <div class="activity-item"><span class="activity-dot"></span><div class="activity-text">New commission rule <b>"Q3 Regional Incentive"</b> created</div><span class="activity-time">1d ago</span></div>
+          <div class="activity-item"><span class="activity-dot"></span><div class="activity-text">"Measuring Tools Sale" discount <b>expired</b></div><span class="activity-time">2d ago</span></div>
+          <div class="activity-item"><span class="activity-dot"></span><div class="activity-text"><b>Rusdi</b> approved discount override code <b>ANNIV-50</b></div><span class="activity-time">3d ago</span></div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-item').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

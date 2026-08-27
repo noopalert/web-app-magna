@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magna Hardware — Discount Settings</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="#151420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Homepage
+      </a>
+      <a class="nav-item active" href="discount-settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+        Discount
+      </a>
+      <a class="nav-item" href="sales-commission.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
+        Sales Commission
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">R</div>
+      <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <h1>Discount Management</h1>
+        <p>Manage active discount rules across product categories.</p>
+      </div>
+      <button class="btn btn-primary" onclick="document.getElementById('discount-form').scrollIntoView({behavior:'smooth'})">+ New Discount</button>
+    </div>
+
+    <!-- Discount table -->
+    <section class="panel">
+      <div class="panel-head"><h3>Discount Active</h3><span class="tag">6 Rules</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Discount Name</th><th>Percentage</th><th>Period</th><th>Category</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="cell-strong">Power Tools Bundle</td><td>15%</td><td>Jul 1 – Jul 31, 2026</td><td>Power Tools</td><td><span class="badge active">Active</span></td></tr>
+            <tr><td class="cell-strong">Hand Tools Clearance</td><td>20%</td><td>Jun 15 – Jul 15, 2026</td><td>Hand Tools</td><td><span class="badge active">Active</span></td></tr>
+            <tr><td class="cell-strong">Safety Gear Promo</td><td>10%</td><td>Jul 5 – Aug 5, 2026</td><td>Safety Equipment</td><td><span class="badge active">Active</span></td></tr>
+            <tr><td class="cell-strong">Measuring Tools Sale</td><td>12%</td><td>May 1 – Jun 30, 2026</td><td>Measuring Tools</td><td><span class="badge expired">Expired</span></td></tr>
+            <tr><td class="cell-strong">Fastener Bulk Deal</td><td>8%</td><td>Jul 10 – Jul 24, 2026</td><td>Fasteners</td><td><span class="badge scheduled">Scheduled</span></td></tr>
+            <tr><td class="cell-strong">TOHO Loyalty Discount</td><td>5%</td><td>Ongoing</td><td>Power Tools</td><td><span class="badge active">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Update or Create New Discount -->
+    <section class="panel" id="discount-form">
+      <div class="panel-head"><h3>Update or Create New Discount</h3></div>
+      <div class="form-card" style="max-width:640px;">
+        <div class="field-grid">
+          <div class="field">
+            <label>Discount Name</label>
+            <input type="text" placeholder="e.g. Power Tools Bundle">
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select>
+              <option>Power Tools</option>
+              <option>Hand Tools</option>
+              <option>Safety Equipment</option>
+              <option>Measuring Tools</option>
+              <option>Fasteners</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Percentage</label>
+            <input type="text" placeholder="e.g. 15%">
+          </div>
+          <div class="field">
+            <label>Period</label>
+            <input type="text" placeholder="e.g. Jul 1 – Jul 31, 2026">
+          </div>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="active-now">
+          <label for="active-now">Set as active immediately</label>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-ghost">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

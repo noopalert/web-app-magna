@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magna Hardware — Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .chart{display:flex;align-items:flex-end;gap:16px;height:220px;padding:0 4px;}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+  .bar-val{font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:8px;}
+  .bar{width:100%;max-width:34px;border-radius:6px 6px 3px 3px;
+    background:linear-gradient(180deg, var(--accent-grad-top), var(--accent-grad-bot));
+    box-shadow:0 0 0 1px rgba(159,155,176,.15) inset;}
+  .bar-city{font-size:11.5px;color:var(--text-muted);margin-top:10px;font-weight:500;}
+
+  .discount-list{display:flex;flex-direction:column;}
+  .discount-item{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border-soft);}
+  .discount-item:last-child{border-bottom:none;padding-bottom:0;}
+  .discount-icon{width:36px;height:36px;border-radius:10px;background:rgba(159,155,176,.12);
+    border:1px solid var(--border-med);display:flex;align-items:center;justify-content:center;
+    color:var(--accent);font-weight:800;font-size:15px;flex-shrink:0;}
+  .discount-info{flex:1;min-width:0;}
+  .discount-info .d-name{font-size:13.5px;font-weight:600;color:var(--text-primary);}
+  .discount-info .d-exp{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+  .discount-tag{font-size:11.5px;font-weight:700;color:#151420;background:var(--secondary);
+    padding:5px 10px;border-radius:8px;white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="#151420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item active" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Homepage
+      </a>
+      <a class="nav-item" href="discount-settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+        Discount
+      </a>
+      <a class="nav-item" href="sales-commission.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
+        Sales Commission
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">R</div>
+      <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <h1>Welcome back, Rusdi</h1>
+        <p>Here is your internal sales and discount performance overview.</p>
+      </div>
+      <div class="live-badge"><span class="live-dot"></span>System Live</div>
+    </div>
+
+    <section class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-row"><div class="stat-value">Rp 125M</div><span class="pill up">↑ +12%</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Sales Order</div>
+        <div class="stat-row"><div class="stat-value">1,245</div><span class="pill up">↑ +8%</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Commission Earned</div>
+        <div class="stat-row"><div class="stat-value">Rp 15.7M</div><span class="pill down">↓ -3%</span></div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="panel">
+        <div class="panel-head"><h3>Sales by Region (Rp Million)</h3></div>
+        <div class="chart" id="chart"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Active Discounts</h3><span class="tag">3 Campaigns</span></div>
+        <div class="discount-list">
+          <div class="discount-item">
+            <div class="discount-icon">%</div>
+            <div class="discount-info"><div class="d-name">Semen Gresik Bulk Promo</div><div class="d-exp">Expires: 31 Oct 2026</div></div>
+            <div class="discount-tag">15% OFF</div>
+          </div>
+          <div class="discount-item">
+            <div class="discount-icon">%</div>
+            <div class="discount-info"><div class="d-name">Magna Anniversary Cut</div><div class="d-exp">Expires: 15 Nov 2026</div></div>
+            <div class="discount-tag">Rp 50k</div>
+          </div>
+          <div class="discount-item">
+            <div class="discount-icon">%</div>
+            <div class="discount-info"><div class="d-name">Power Tools Clearance</div><div class="d-exp">Expires: 20 Nov 2026</div></div>
+            <div class="discount-tag">25% OFF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h3>Recent Audit &amp; Security Log</h3></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>User</th><th>Action Performed</th><th>Login Location</th><th>Timestamp</th></tr></thead>
+          <tbody>
+            <tr><td><div class="row-user"><div class="mini-avatar">R</div>Rusdi</div></td><td>Login success (Web admin panel)</td><td>Jakarta</td><td>10 mins ago</td></tr>
+            <tr><td><div class="row-user"><div class="mini-avatar">B</div>Budi (Sales Assoc)</div></td><td>Login success (Mobile platform)</td><td>Surabaya</td><td>45 mins ago</td></tr>
+            <tr><td><div class="row-user"><div class="mini-avatar">A</div>Ani (Admin)</div></td><td>Assigned new discount values</td><td>Bandung</td><td>2 hours ago</td></tr>
+            <tr><td><div class="row-user"><div class="mini-avatar">R</div>Rusdi</div></td><td>Approved discount overrides code: ANNIV-50</td><td>Jakarta</td><td>3 hours ago</td></tr>
+            <tr><td><div class="row-user"><div class="mini-avatar">E</div>Eko (Sales Assoc)</div></td><td>Login success (Web portal)</td><td>Medan</td><td>5 hours ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const data = [
+    {city:'Jakarta', val:45}, {city:'Surabaya', val:38}, {city:'Bandung', val:32}, {city:'Medan', val:24},
+    {city:'Semarang', val:20}, {city:'Makassar', val:18}, {city:'Palembang', val:15}, {city:'Bali', val:12},
+  ];
+  const max = Math.max(...data.map(d=>d.val));
+  const chart = document.getElementById('chart');
+  data.forEach(d=>{
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    col.innerHTML = `<div class="bar-val">${d.val}M</div><div class="bar" style="height:${(d.val/max*100).toFixed(1)}%"></div><div class="bar-city">${d.city}</div>`;
+    chart.appendChild(col);
+  });
+</script>
+</body>
+</html>

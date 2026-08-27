@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magna Hardware — Login</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{
+    display:flex; align-items:center; justify-content:center; min-height:100vh; padding:32px;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(159,155,176,0.08), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(88,88,124,0.14), transparent 50%),
+      var(--bg-app);
+  }
+  .auth-card{
+    width:100%; max-width:920px; min-height:560px;
+    display:grid; grid-template-columns:1fr 1fr;
+    background:var(--bg-panel); border:1px solid var(--border-soft);
+    border-radius:20px; overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+  }
+
+  /* ---- left promo panel ---- */
+  .promo{
+    background:var(--bg-sidebar);
+    padding:36px 34px; display:flex; flex-direction:column;
+    border-right:1px solid var(--border-soft);
+  }
+  .promo .brand{padding:0 0 24px 0;}
+  .hero-art{
+    flex:1; border-radius:14px; margin-bottom:24px; min-height:180px;
+    position:relative; overflow:hidden;
+    background:linear-gradient(160deg, #232134 0%, var(--tertiary) 55%, var(--secondary) 130%);
+    border:1px solid var(--border-soft);
+  }
+  .hero-art svg{position:absolute; inset:0; width:100%; height:100%;}
+  .promo h2{font-size:21px; font-weight:800; line-height:1.3; letter-spacing:-.3px; margin-bottom:10px;}
+  .promo p.desc{font-size:13px; color:var(--text-muted); line-height:1.6; max-width:320px;}
+  .promo .copyright{margin-top:24px; font-size:11.5px; color:var(--text-muted); display:flex; align-items:center; gap:6px;}
+
+  /* ---- right form panel ---- */
+  .form-side{padding:52px 48px; display:flex; flex-direction:column; justify-content:center;}
+  .form-side h1{font-size:24px; font-weight:800; letter-spacing:-.3px;}
+  .form-side p.sub{font-size:13.5px; color:var(--text-muted); margin-top:6px; margin-bottom:30px;}
+
+  .form-side .field{margin-bottom:18px;}
+  .form-side .field input, .form-side .field select{
+    background:var(--bg-input); padding:12px 14px;
+  }
+  .forgot{display:flex; justify-content:flex-end; margin:-8px 0 22px;}
+  .forgot a{font-size:12.5px; color:var(--secondary); font-weight:600;}
+  .forgot a:hover{text-decoration:underline;}
+  .btn-login{width:100%; padding:13px; font-size:14px;}
+  .helper-link{margin-top:22px; text-align:center; font-size:12.5px; color:var(--text-muted);}
+  .helper-link a{color:var(--secondary); font-weight:600;}
+
+  @media (max-width:760px){
+    .auth-card{grid-template-columns:1fr;}
+    .promo{display:none;}
+    .form-side{padding:40px 28px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="auth-card">
+    <!-- LEFT: brand / promo -->
+    <div class="promo">
+      <div class="brand">
+        <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="#151420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="brand-text"><div class="name">PT MAGNA HARDWARE</div></div>
+      </div>
+
+      <div class="hero-art">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+          <circle cx="330" cy="40" r="90" fill="rgba(243,242,246,0.06)"/>
+          <circle cx="60" cy="230" r="120" fill="rgba(21,20,32,0.35)"/>
+          <path d="M0 190 L80 140 L150 175 L230 110 L310 150 L400 95 L400 260 L0 260 Z" fill="rgba(21,20,32,0.45)"/>
+          <path d="M0 210 L100 165 L180 200 L260 150 L340 185 L400 150 L400 260 L0 260 Z" fill="rgba(21,20,32,0.65)"/>
+        </svg>
+      </div>
+
+      <h2>Sales and Discount Operations in One Place.</h2>
+      <p class="desc">Internal commission and discount management for the Magna Hardware Team.</p>
+      <div class="copyright">© 2026 Magna Hardware</div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="form-side">
+      <h1>Welcome Back</h1>
+      <p class="sub">Sign in back to your dashboard</p>
+
+      <div class="field">
+        <label for="tenant">Tenant</label>
+        <select id="tenant">
+          <option value="">Select your tenant</option>
+          <option>Magna Hardware — Head Office</option>
+          <option>Magna Hardware — Regional Jakarta</option>
+          <option>Magna Hardware — Regional Surabaya</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Insert your username">
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Insert your password">
+      </div>
+
+      <div class="forgot"><a href="#">Forgot Password?</a></div>
+
+      <button class="btn btn-primary btn-login" onclick="window.location.href='dashboard.html'">Login</button>
+
+      <div class="helper-link">Need access? <a href="#">Contact your administrator</a></div>
+    </div>
+  </div>
+
+</body>
+</html>
