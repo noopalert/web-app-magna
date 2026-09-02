@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magna Hardware — Condition Tiers</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="#151420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Homepage
+      </a>
+      <a class="nav-item active" href="discount-settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+        Discount
+      </a>
+      <a class="nav-item" href="sales-commission.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
+        Sales Commission
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">R</div>
+      <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <a class="back-link" href="discount-settings.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      Back to Discount Settings
+    </a>
+
+    <div class="page-head">
+      <div>
+        <h1 id="condition-title">Condition</h1>
+        <p>Set the minimum and maximum purchase amount (Rp) for each tier under this condition.</p>
+      </div>
+      <button class="btn btn-primary" id="add-tier-btn">+ Add Tier</button>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head"><h3>Tiers</h3><span class="tag" id="tier-count-tag">0 Tiers</span></div>
+      <div class="tier-list" id="tier-list"></div>
+    </section>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="save-btn">Save Condition</button>
+      <button class="btn btn-ghost" onclick="window.location.href='discount-settings.html'">Cancel</button>
+    </div>
+  </main>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const conditionId = params.get('condition') || '1';
+  document.getElementById('condition-title').textContent = 'Condition ' + conditionId;
+  document.title = 'Magna Hardware — Condition ' + conditionId + ' Tiers';
+
+  /* Demo default data — Condition 1 & 2 already have 3 tiers configured,
+     mirrors the "Tier 1 / 2 / 3" rows from the reference sheet. */
+  const seeded = {
+    '1': [
+      { min: '0', max: '5.000.000' },
+      { min: '5.000.001', max: '15.000.000' },
+      { min: '15.000.001', max: '' },
+    ],
+    '2': [
+      { min: '0', max: '10.000.000' },
+      { min: '10.000.001', max: '30.000.000' },
+      { min: '30.000.001', max: '' },
+    ],
+  };
+
+  let tiers = (seeded[conditionId] || []).map(t => ({ ...t }));
+  if (tiers.length === 0) {
+    tiers = [{ min: '', max: '' }];
+  }
+
+  const tierList = document.getElementById('tier-list');
+  const tierCountTag = document.getElementById('tier-count-tag');
+
+  function renderTiers() {
+    tierCountTag.textContent = tiers.length + ' Tiers';
+    tierList.innerHTML = tiers.map((t, i) => `
+      <div class="tier-card">
+        <div class="tier-card-head">
+          <div class="t-name"><span class="tier-badge">${i + 1}</span> Tier ${i + 1}</div>
+          ${tiers.length > 1 ? `<button class="row-remove" data-i="${i}">&times;</button>` : ''}
+        </div>
+        <div class="tier-fields">
+          <div class="field">
+            <label>Minimum Belanja</label>
+            <div class="input-prefix">
+              <span>Rp</span>
+              <input type="text" data-i="${i}" data-key="min" value="${t.min}" placeholder="0">
+            </div>
+          </div>
+          <div class="field">
+            <label>Maksimum Belanja</label>
+            <div class="input-prefix">
+              <span>Rp</span>
+              <input type="text" data-i="${i}" data-key="max" value="${t.max}" placeholder="Tanpa batas">
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    tierList.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => {
+        tiers[Number(input.dataset.i)][input.dataset.key] = input.value;
+      });
+    });
+    tierList.querySelectorAll('.row-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tiers.splice(Number(btn.dataset.i), 1);
+        renderTiers();
+      });
+    });
+  }
+
+  document.getElementById('add-tier-btn').addEventListener('click', () => {
+    tiers.push({ min: '', max: '' });
+    renderTiers();
+  });
+
+  document.getElementById('save-btn').addEventListener('click', () => {
+    // Placeholder for wiring to the backend (e.g. POST /api/discount-conditions/{id}/tiers)
+    alert('Condition ' + conditionId + ' tersimpan dengan ' + tiers.length + ' tier.');
+  });
+
+  renderTiers();
+</script>
+</body>
+</html>

@@ -38,68 +38,202 @@
     <div class="page-head">
       <div>
         <h1>Discount Management</h1>
-        <p>Manage active discount rules across product categories.</p>
+        <p>Manage discount rules per product/customer, and tiered discount conditions.</p>
       </div>
-      <button class="btn btn-primary" onclick="document.getElementById('discount-form').scrollIntoView({behavior:'smooth'})">+ New Discount</button>
     </div>
 
-    <!-- Discount table -->
+    <!-- ================= DISCOUNT SETTING 1 ================= -->
     <section class="panel">
-      <div class="panel-head"><h3>Discount Active</h3><span class="tag">6 Rules</span></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Discount Name</th><th>Percentage</th><th>Period</th><th>Category</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td class="cell-strong">Power Tools Bundle</td><td>15%</td><td>Jul 1 – Jul 31, 2026</td><td>Power Tools</td><td><span class="badge active">Active</span></td></tr>
-            <tr><td class="cell-strong">Hand Tools Clearance</td><td>20%</td><td>Jun 15 – Jul 15, 2026</td><td>Hand Tools</td><td><span class="badge active">Active</span></td></tr>
-            <tr><td class="cell-strong">Safety Gear Promo</td><td>10%</td><td>Jul 5 – Aug 5, 2026</td><td>Safety Equipment</td><td><span class="badge active">Active</span></td></tr>
-            <tr><td class="cell-strong">Measuring Tools Sale</td><td>12%</td><td>May 1 – Jun 30, 2026</td><td>Measuring Tools</td><td><span class="badge expired">Expired</span></td></tr>
-            <tr><td class="cell-strong">Fastener Bulk Deal</td><td>8%</td><td>Jul 10 – Jul 24, 2026</td><td>Fasteners</td><td><span class="badge scheduled">Scheduled</span></td></tr>
-            <tr><td class="cell-strong">TOHO Loyalty Discount</td><td>5%</td><td>Ongoing</td><td>Power Tools</td><td><span class="badge active">Active</span></td></tr>
-          </tbody>
-        </table>
+      <div class="panel-head">
+        <div>
+          <h3>Discount Setting 1 — Product &amp; Customer</h3>
+          <div class="sub">A discount can be attached directly to a product, or to a specific customer.</div>
+        </div>
+        <span class="tag" id="d1-count-tag">0 Rules</span>
+      </div>
+
+      <div class="split-grid">
+
+        <!-- Per Product -->
+        <div class="panel" style="background:transparent;border:none;padding:0;">
+          <div class="panel-head" style="margin-bottom:12px;"><h3 style="font-size:13.5px;">Discount by Product</h3></div>
+          <div class="mini-table-wrap">
+            <table>
+              <thead><tr><th>Nama Barang</th><th>Discount</th><th></th></tr></thead>
+              <tbody id="product-tbody"></tbody>
+            </table>
+          </div>
+          <div class="add-row">
+            <div class="field">
+              <label>Nama Barang</label>
+              <select id="product-select">
+                <option value="">Pilih barang</option>
+                <option>Bosch GSB 13 RE Impact Drill</option>
+                <option>Tekiro Combination Wrench Set</option>
+                <option>Krisbow Safety Helmet</option>
+                <option>Stanley Measuring Tape 5M</option>
+                <option>Kenmaster Hex Bolt M8 (Box)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Discount</label>
+              <input type="text" id="product-discount" placeholder="e.g. 10%">
+            </div>
+            <button class="btn-add" id="product-add" title="Tambah discount barang">+</button>
+          </div>
+        </div>
+
+        <!-- Per Customer -->
+        <div class="panel" style="background:transparent;border:none;padding:0;">
+          <div class="panel-head" style="margin-bottom:12px;"><h3 style="font-size:13.5px;">Discount by Customer</h3></div>
+          <div class="mini-table-wrap">
+            <table>
+              <thead><tr><th>Nama Customer</th><th>Discount</th><th></th></tr></thead>
+              <tbody id="customer-tbody"></tbody>
+            </table>
+          </div>
+          <div class="add-row">
+            <div class="field">
+              <label>Nama Customer</label>
+              <select id="customer-select">
+                <option value="">Pilih customer</option>
+                <option>CV Sumber Jaya Bangunan</option>
+                <option>Toko Berkah Teknik</option>
+                <option>PT Cipta Konstruksi Utama</option>
+                <option>UD Mitra Perkakas</option>
+                <option>Toko Sinar Abadi</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Discount</label>
+              <input type="text" id="customer-discount" placeholder="e.g. 5%">
+            </div>
+            <button class="btn-add" id="customer-add" title="Tambah discount customer">+</button>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Update or Create New Discount -->
-    <section class="panel" id="discount-form">
-      <div class="panel-head"><h3>Update or Create New Discount</h3></div>
-      <div class="form-card" style="max-width:640px;">
-        <div class="field-grid">
-          <div class="field">
-            <label>Discount Name</label>
-            <input type="text" placeholder="e.g. Power Tools Bundle">
-          </div>
-          <div class="field">
-            <label>Category</label>
-            <select>
-              <option>Power Tools</option>
-              <option>Hand Tools</option>
-              <option>Safety Equipment</option>
-              <option>Measuring Tools</option>
-              <option>Fasteners</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Percentage</label>
-            <input type="text" placeholder="e.g. 15%">
-          </div>
-          <div class="field">
-            <label>Period</label>
-            <input type="text" placeholder="e.g. Jul 1 – Jul 31, 2026">
-          </div>
+    <!-- ================= DISCOUNT SETTING 2 ================= -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Discount Setting 2 — Condition Tiers</h3>
+          <div class="sub">Each condition holds tiers (Tier 1, 2, 3, …) based on a minimum and maximum purchase amount. Click a condition to configure its tiers.</div>
         </div>
-        <div class="checkbox-row">
-          <input type="checkbox" id="active-now">
-          <label for="active-now">Set as active immediately</label>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-primary">Submit</button>
-          <button class="btn btn-ghost">Cancel</button>
-        </div>
+        <span class="tag">7 Conditions</span>
       </div>
+
+      <div class="condition-list" id="condition-list"></div>
     </section>
+
   </main>
 </div>
+
+<script>
+  /* ---------- DISCOUNT 1 : product & customer ---------- */
+  const productRows = [
+    { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%' },
+    { name: 'Krisbow Safety Helmet', discount: '8%' },
+  ];
+  const customerRows = [
+    { name: 'CV Sumber Jaya Bangunan', discount: '5%' },
+    { name: 'Toko Berkah Teknik', discount: '7%' },
+  ];
+
+  function renderMiniTable(tbodyId, rows, emptyLabel, onRemove) {
+    const tbody = document.getElementById(tbodyId);
+    if (rows.length === 0) {
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="3">${emptyLabel}</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = rows.map((r, i) => `
+      <tr>
+        <td class="cell-strong">${r.name}</td>
+        <td>${r.discount}</td>
+        <td style="width:36px;"><button class="row-remove" data-i="${i}">&times;</button></td>
+      </tr>
+    `).join('');
+    tbody.querySelectorAll('.row-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        rows.splice(Number(btn.dataset.i), 1);
+        onRemove();
+      });
+    });
+  }
+
+  function updateCountTag() {
+    document.getElementById('d1-count-tag').textContent =
+      (productRows.length + customerRows.length) + ' Rules';
+  }
+
+  function renderProductTable() {
+    renderMiniTable('product-tbody', productRows, 'Belum ada discount per barang.', () => {
+      renderProductTable(); updateCountTag();
+    });
+    updateCountTag();
+  }
+  function renderCustomerTable() {
+    renderMiniTable('customer-tbody', customerRows, 'Belum ada discount per customer.', () => {
+      renderCustomerTable(); updateCountTag();
+    });
+    updateCountTag();
+  }
+
+  document.getElementById('product-add').addEventListener('click', () => {
+    const select = document.getElementById('product-select');
+    const discountInput = document.getElementById('product-discount');
+    if (!select.value || !discountInput.value.trim()) return;
+    productRows.push({ name: select.value, discount: discountInput.value.trim() });
+    select.value = '';
+    discountInput.value = '';
+    renderProductTable();
+  });
+
+  document.getElementById('customer-add').addEventListener('click', () => {
+    const select = document.getElementById('customer-select');
+    const discountInput = document.getElementById('customer-discount');
+    if (!select.value || !discountInput.value.trim()) return;
+    customerRows.push({ name: select.value, discount: discountInput.value.trim() });
+    select.value = '';
+    discountInput.value = '';
+    renderCustomerTable();
+  });
+
+  renderProductTable();
+  renderCustomerTable();
+
+  /* ---------- DISCOUNT 2 : condition -> tier ---------- */
+  const conditions = [
+    { id: 1, label: 'Condition 1', tiers: 3 },
+    { id: 2, label: 'Condition 2', tiers: 3 },
+    { id: 3, label: 'Condition 3', tiers: 0 },
+    { id: 4, label: 'Condition 4', tiers: 0 },
+    { id: 5, label: 'Condition 5', tiers: 0 },
+    { id: 6, label: 'Condition 6', tiers: 0 },
+    { id: 7, label: 'Condition 7', tiers: 0 },
+  ];
+
+  const list = document.getElementById('condition-list');
+  list.innerHTML = conditions.map(c => `
+    <button class="condition-row" data-id="${c.id}">
+      <div class="condition-index">${String(c.id).padStart(2, '0')}</div>
+      <div class="condition-body">
+        <div class="c-name">${c.label}</div>
+        <div class="c-sub">${c.tiers > 0 ? c.tiers + ' tier configured' : 'Belum dikonfigurasi'}</div>
+      </div>
+      <div class="condition-chevron">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+    </button>
+  `).join('');
+
+  list.querySelectorAll('.condition-row').forEach(row => {
+    row.addEventListener('click', () => {
+      window.location.href = `discount-condition.html?condition=${row.dataset.id}`;
+    });
+  });
+</script>
 </body>
 </html>
