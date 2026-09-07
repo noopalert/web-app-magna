@@ -30,6 +30,8 @@
   --accent-grad-bot: var(--tertiary);
   --on-accent: var(--primary);
   --login-promo: var(--secondary);
+  --promo-text: var(--primary);
+  --promo-text-muted: rgba(248, 249, 250, 0.68);
   --shadow-card: 0 20px 50px -30px rgba(33, 37, 41, 0.26);
 
   --up: #2F9E63;
@@ -69,6 +71,8 @@
   --accent-grad-bot: var(--tertiary);
   --on-accent: var(--primary);
   --login-promo: var(--bg-sidebar);
+  --promo-text: var(--secondary);
+  --promo-text-muted: rgba(159, 155, 176, 0.72);
   --shadow-card: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
 
   --up: #6FCF97;
