@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
+<title>Magna Hardware — Salesman Data</title>
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="currentColor" stroke-width="2"/></svg></div><div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div></div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Homepage</a>
+      <a class="nav-item" href="discount-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>Discount</a>
+      <details class="nav-group" open><summary class="nav-item nav-summary active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>Sales Commission<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="subnav"><a class="subnav-item" href="sales-commission.html">Overview</a><a class="subnav-item" href="sales-commission-rules.html">Rules</a><a class="subnav-item active" href="salesman-data.html">Salesman Data</a><a class="subnav-item" href="product-focus.html">Product Focus</a></div>
+      </details>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+    <div class="sidebar-footer"><div class="avatar">R</div><div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head"><div><h1>Salesman Data</h1><p>Manage sales personnel, positions, regions, and employment status.</p></div><span class="tag" id="salesman-count">0 Salesmen</span></div>
+
+    <section class="panel">
+      <div class="panel-head"><div><h3>Add Salesman</h3><div class="sub">Add a sales representative to the commission structure.</div></div></div>
+      <div class="add-row add-row-salesman">
+        <div class="field"><label>Full Name</label><input id="salesman-name" type="text" placeholder="e.g. Andi Wijaya"></div>
+        <div class="field"><label>Position</label><select id="salesman-position"><option>Marketing Executive</option><option>Senior Sales</option><option>Sales Supervisor</option><option>Regional Sales Manager</option></select></div>
+        <div class="field"><label>Region</label><select id="salesman-region"><option>Jakarta</option><option>Jawa Barat</option><option>Bali</option><option>Sumatera</option><option>Kalimantan</option><option>Sulawesi</option><option>Ambon</option><option>Papua</option></select></div>
+        <button class="btn-add" id="add-salesman" title="Add salesman">+</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar"><div><h3>Sales Team</h3><div class="sub" style="margin-top:4px;">Personnel currently included in commission calculation.</div></div><div class="field"><input id="salesman-search" type="search" placeholder="Search name or region"></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Position</th><th>Region</th><th>Status</th><th></th></tr></thead><tbody id="salesman-body"></tbody></table></div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const salesmen = [
+    { name: 'Andi Wijaya', position: 'Marketing Executive', region: 'Jakarta', status: 'Active' },
+    { name: 'Citra Dewi', position: 'Senior Sales', region: 'Bali', status: 'Active' },
+    { name: 'Eka Putra', position: 'Marketing Executive', region: 'Jawa Barat', status: 'Active' },
+    { name: 'Budi Prakoso', position: 'Sales Supervisor', region: 'Sumatera', status: 'Active' },
+    { name: 'Dedi Kurniawan', position: 'Marketing Executive', region: 'Sulawesi', status: 'Inactive' }
+  ];
+
+  function renderSalesmen(query = '') {
+    const normalizedQuery = query.toLowerCase();
+    const rows = salesmen.map((salesman, index) => ({ ...salesman, index })).filter(salesman => `${salesman.name} ${salesman.position} ${salesman.region}`.toLowerCase().includes(normalizedQuery));
+    document.getElementById('salesman-count').textContent = salesmen.length + ' Salesmen';
+    document.getElementById('salesman-body').innerHTML = rows.length ? rows.map(salesman => `<tr><td class="cell-strong">${salesman.name}</td><td>${salesman.position}</td><td>${salesman.region}</td><td><span class="badge ${salesman.status === 'Active' ? 'active' : 'expired'}">${salesman.status}</span></td><td><button class="row-remove" data-i="${salesman.index}">&times;</button></td></tr>`).join('') : '<tr class="empty-row"><td colspan="5">No salesman found.</td></tr>';
+    document.querySelectorAll('#salesman-body .row-remove').forEach(button => button.addEventListener('click', () => { salesmen.splice(Number(button.dataset.i), 1); renderSalesmen(document.getElementById('salesman-search').value); }));
+  }
+
+  document.getElementById('add-salesman').addEventListener('click', () => {
+    const name = document.getElementById('salesman-name');
+    if (!name.value.trim()) return;
+    salesmen.push({ name: name.value.trim(), position: document.getElementById('salesman-position').value, region: document.getElementById('salesman-region').value, status: 'Active' });
+    name.value = '';
+    renderSalesmen();
+  });
+  document.getElementById('salesman-search').addEventListener('input', event => renderSalesmen(event.target.value));
+  renderSalesmen();
+</script>
+</body>
+</html>

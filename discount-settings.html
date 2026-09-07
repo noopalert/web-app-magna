@@ -25,10 +25,19 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
         Discount
       </a>
-      <a class="nav-item" href="sales-commission.html">
+      <details class="nav-group">
+        <summary class="nav-item nav-summary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
         Sales Commission
-      </a>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="subnav">
+          <a class="subnav-item" href="sales-commission.html">Overview</a>
+          <a class="subnav-item" href="sales-commission-rules.html">Rules</a>
+          <a class="subnav-item" href="salesman-data.html">Salesman Data</a>
+          <a class="subnav-item" href="product-focus.html">Product Focus</a>
+        </div>
+      </details>
     </nav>
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -83,7 +92,7 @@
             </div>
             <div class="field">
               <label>Discount</label>
-              <input type="text" id="product-discount" placeholder="e.g. 10%">
+              <input class="percentage-input" type="text" inputmode="decimal" id="product-discount" placeholder="e.g. 10">
             </div>
             <button class="btn-add" id="product-add" title="Tambah discount barang">+</button>
           </div>
@@ -112,7 +121,7 @@
             </div>
             <div class="field">
               <label>Discount</label>
-              <input type="text" id="customer-discount" placeholder="e.g. 5%">
+              <input class="percentage-input" type="text" inputmode="decimal" id="customer-discount" placeholder="e.g. 5">
             </div>
             <button class="btn-add" id="customer-add" title="Tambah discount customer">+</button>
           </div>
@@ -155,7 +164,7 @@
         </div>
         <div class="field">
           <label>Discount</label>
-          <input type="text" id="d2-discount" placeholder="e.g. 2%">
+          <input class="percentage-input" type="text" inputmode="decimal" id="d2-discount" placeholder="e.g. 2">
         </div>
         <button class="btn-add" id="d2-add" title="Tambah discount minimum quantity">+</button>
       </div>
@@ -165,10 +174,29 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h3>Discount Setting 3 — Category Tiers</h3>
-          <div class="sub">Configure tiered discounts for each category. Each tier has its own minimum quantity.</div>
+          <h3>Discount Setting 3 — Product Categories</h3>
+          <div class="sub">Set category-level discounts and manage which products belong to each category.</div>
         </div>
         <span class="tag" id="d3-count-tag">0 Categories</span>
+      </div>
+
+      <div class="form-card category-create-card">
+        <div class="rule-card-title">Add New Category</div>
+        <div class="add-row add-row-category">
+          <div class="field">
+            <label>Category Name</label>
+            <input type="text" id="d3-category-name" placeholder="e.g. Power Tools">
+          </div>
+          <div class="field">
+            <label>Minimum Qty</label>
+            <input type="number" id="d3-min-qty" min="1" placeholder="e.g. 5">
+          </div>
+          <div class="field">
+            <label>Discount</label>
+            <input class="percentage-input" type="text" inputmode="decimal" id="d3-discount" placeholder="e.g. 5">
+          </div>
+          <button class="btn-add" id="d3-add-category" title="Add new discount category">+</button>
+        </div>
       </div>
 
       <div class="condition-list" id="category-tier-list"></div>
@@ -178,6 +206,32 @@
 </div>
 
 <script>
+  function formatPercentage(input) {
+    const rawValue = input.value.replace('%', '').replace(',', '.').trim();
+    if (!rawValue) {
+      input.value = '';
+      return '';
+    }
+
+    const numericValue = Number(rawValue);
+    if (Number.isNaN(numericValue)) {
+      input.value = '';
+      return '';
+    }
+
+    const safeValue = Math.min(100, Math.max(0, numericValue));
+    const formattedValue = `${Number.isInteger(safeValue) ? safeValue : safeValue.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}%`;
+    input.value = formattedValue;
+    return formattedValue;
+  }
+
+  document.querySelectorAll('.percentage-input').forEach(input => {
+    input.addEventListener('focus', () => {
+      input.value = input.value.replace('%', '');
+    });
+    input.addEventListener('blur', () => formatPercentage(input));
+  });
+
   /* ---------- DISCOUNT 1 : product & customer ---------- */
   const productRows = [
     { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%' },
@@ -230,8 +284,9 @@
   document.getElementById('product-add').addEventListener('click', () => {
     const select = document.getElementById('product-select');
     const discountInput = document.getElementById('product-discount');
-    if (!select.value || !discountInput.value.trim()) return;
-    productRows.push({ name: select.value, discount: discountInput.value.trim() });
+    const discount = formatPercentage(discountInput);
+    if (!select.value || !discount) return;
+    productRows.push({ name: select.value, discount });
     select.value = '';
     discountInput.value = '';
     renderProductTable();
@@ -240,8 +295,9 @@
   document.getElementById('customer-add').addEventListener('click', () => {
     const select = document.getElementById('customer-select');
     const discountInput = document.getElementById('customer-discount');
-    if (!select.value || !discountInput.value.trim()) return;
-    customerRows.push({ name: select.value, discount: discountInput.value.trim() });
+    const discount = formatPercentage(discountInput);
+    if (!select.value || !discount) return;
+    customerRows.push({ name: select.value, discount });
     select.value = '';
     discountInput.value = '';
     renderCustomerTable();
@@ -286,9 +342,10 @@
     const minQty = document.getElementById('d2-min-qty');
     const discount = document.getElementById('d2-discount');
 
-    if (!product.value || !minQty.value || Number(minQty.value) < 1 || !discount.value.trim()) return;
+    const formattedDiscount = formatPercentage(discount);
+    if (!product.value || !minQty.value || Number(minQty.value) < 1 || !formattedDiscount) return;
 
-    d2Rows.push({ name: product.value, minQty: Number(minQty.value), discount: discount.value.trim() });
+    d2Rows.push({ name: product.value, minQty: Number(minQty.value), discount: formattedDiscount });
     product.value = '';
     minQty.value = '';
     discount.value = '';
@@ -297,33 +354,79 @@
 
   renderD2Table();
 
-  /* ---------- DISCOUNT 3 : category -> tier ---------- */
-  const categoryTiers = [
-    { category: 'Mesin', tiers: 3 },
-    { category: 'Perkakas Tangan', tiers: 0 },
-    { category: 'Safety Equipment', tiers: 0 },
+  /* ---------- DISCOUNT 3 : category -> products ---------- */
+  const discountCategories = [
+    { id: 1, category: 'Mesin', minQty: 5, discount: '5%', products: 4 },
+    { id: 2, category: 'Pneumatics', minQty: 2, discount: '3%', products: 3 },
+    { id: 3, category: 'Mata Planer', minQty: 1, discount: '2%', products: 1 },
   ];
 
   const categoryTierList = document.getElementById('category-tier-list');
-  document.getElementById('d3-count-tag').textContent = categoryTiers.length + ' Categories';
-  categoryTierList.innerHTML = categoryTiers.map((item, index) => `
-    <button class="condition-row" data-category="${item.category}">
-      <div class="condition-index">${String(index + 1).padStart(2, '0')}</div>
-      <div class="condition-body">
-        <div class="c-name">${item.category}</div>
-        <div class="c-sub">${item.tiers > 0 ? item.tiers + ' tier configured' : 'Belum dikonfigurasi'}</div>
-      </div>
-      <div class="condition-chevron">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-      </div>
-    </button>
-  `).join('');
+  function renderDiscountCategories() {
+    document.getElementById('d3-count-tag').textContent = discountCategories.length + ' Categories';
+    categoryTierList.innerHTML = discountCategories.length ? discountCategories.map(item => `
+      <button class="condition-row" data-id="${item.id}" data-category="${item.category}" data-min-qty="${item.minQty}" data-discount="${item.discount}">
+        <div class="condition-index">${String(item.id).padStart(2, '0')}</div>
+        <div class="condition-body">
+          <div class="c-name">Category ${item.id} — ${item.category}</div>
+          <div class="category-meta">
+            <span class="meta-chip">${item.products} products</span>
+            <span class="meta-chip">Min. ${item.minQty} qty</span>
+            <span class="meta-chip">${item.discount} discount</span>
+          </div>
+        </div>
+        <div class="condition-chevron">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </div>
+      </button>
+    `).join('') : '<div class="notice">Belum ada Discount 3 category.</div>';
 
-  categoryTierList.querySelectorAll('.condition-row').forEach(row => {
-    row.addEventListener('click', () => {
-      window.location.href = `discount-condition.html?category=${encodeURIComponent(row.dataset.category)}`;
+    categoryTierList.querySelectorAll('.condition-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const query = new URLSearchParams({
+          id: row.dataset.id,
+          category: row.dataset.category,
+          minQty: row.dataset.minQty,
+          discount: row.dataset.discount,
+        });
+        window.location.href = `discount-condition.html?${query.toString()}`;
+      });
     });
+  }
+
+  document.getElementById('d3-add-category').addEventListener('click', () => {
+    const categoryNameInput = document.getElementById('d3-category-name');
+    const minimumQuantityInput = document.getElementById('d3-min-qty');
+    const discountInput = document.getElementById('d3-discount');
+    const categoryName = categoryNameInput.value.trim();
+    const minimumQuantity = Number(minimumQuantityInput.value);
+    const discount = formatPercentage(discountInput);
+
+    const categoryExists = discountCategories.some(item =>
+      item.category.toLowerCase() === categoryName.toLowerCase()
+    );
+
+    if (!categoryName || minimumQuantity < 1 || !discount || categoryExists) return;
+
+    const nextId = discountCategories.length
+      ? Math.max(...discountCategories.map(item => item.id)) + 1
+      : 1;
+
+    discountCategories.push({
+      id: nextId,
+      category: categoryName,
+      minQty: minimumQuantity,
+      discount,
+      products: 0,
+    });
+
+    categoryNameInput.value = '';
+    minimumQuantityInput.value = '';
+    discountInput.value = '';
+    renderDiscountCategories();
   });
+
+  renderDiscountCategories();
 </script>
 </body>
 </html>

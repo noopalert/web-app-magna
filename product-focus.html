@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
+<title>Magna Hardware — Product Focus</title>
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="currentColor" stroke-width="2"/></svg></div><div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div></div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Homepage</a>
+      <a class="nav-item" href="discount-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>Discount</a>
+      <details class="nav-group" open><summary class="nav-item nav-summary active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>Sales Commission<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="subnav"><a class="subnav-item" href="sales-commission.html">Overview</a><a class="subnav-item" href="sales-commission-rules.html">Rules</a><a class="subnav-item" href="salesman-data.html">Salesman Data</a><a class="subnav-item active" href="product-focus.html">Product Focus</a></div>
+      </details>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+    <div class="sidebar-footer"><div class="avatar">R</div><div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head"><div><h1>Product Focus</h1><p>Manage Special Product categories and their included products.</p></div><span class="tag" id="focus-summary">0 Categories</span></div>
+
+    <div class="section-grid product-focus-layout">
+      <section class="panel">
+        <div class="panel-head"><div><h3>Categories</h3><div class="sub">Based on the Special Product target document.</div></div></div>
+        <div class="toolbar">
+          <div class="field"><input id="new-category" type="text" placeholder="New category name"></div>
+          <button class="btn btn-primary" id="add-category">+ Add Category</button>
+        </div>
+        <div class="condition-list" id="focus-category-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><div><h3 id="selected-category-title">Products</h3><div class="sub">Products included in the selected focus category.</div></div><span class="tag" id="selected-product-count">0 Products</span></div>
+        <div class="toolbar">
+          <div class="field"><input id="new-focus-product" type="text" placeholder="Enter product name"></div>
+          <button class="btn btn-primary" id="add-focus-product">+ Add Product</button>
+        </div>
+        <div class="product-list" id="focus-product-list"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  const focusCategories = [
+    { name: 'Air Spray Gun', products: ['PISTOL SEMPROTAN UDARA 1.3MM TOHO AIR SPRAY GUN', 'PISTOL SEMPROTAN UDARA 1.5MM TOHO AIR SPRAY GUN'] },
+    { name: 'Alat Potong Keramik', products: ['ALAT POTONG KERAMIK TILE CUTTER 600MM 24INCH TOHO', 'ALAT POTONG KERAMIK TILE CUTTER 800MM 32INCH TOHO', 'ALAT POTONG KERAMIK TILE CUTTER 1200MM 48INCH TOHO'] },
+    { name: 'Dongkrak', products: ['HYDRAULIC FLOOR JACK DOUBLE PUMP 3 TON TOHO', 'HYDRAULIC LOW PROFILE FLOOR JACK DOUBLE PUMP 3 TON TOHO', 'HYDRAULIC FLOOR JACK 2 TON TOHO WITH CASE'] },
+    { name: 'Mesin', products: ['MESIN GERGAJI KAYU LISTRIK 7INCH TOHO CIRCULAR SAW', 'MESIN POTONG RUMPUT CORDLESS GRASS CUTTER TOHO', 'MESIN BOR CORDLESS IMPACT DRILL TOHO 20V', 'MESIN GERINDA CORDLESS ANGLE GRINDER TOHO 20V'] },
+    { name: 'Mata Planer', products: ['PLANER BLADE TOHO (TCT)'] },
+    { name: 'Pneumatics', products: ['AIR BLOW GUN 4INCH TOHO', 'AIR BLOW GUN 8INCH TOHO', 'AIR IMPACT WRENCH TOHO', 'MESIN PAKU TEMBAKAN ANGIN F32 TOHO AIR NAILER'] },
+    { name: 'Tang', products: ['TANG KOMBINASI MULTIFUNGSI 8.5INCH TOHO', 'TANG LANCIP 6INCH TOHO GERMAN TYPE', 'TANG POTONG DIAGONAL MINI 4INCH TOHO'] }
+  ];
+  let selectedCategoryIndex = 0;
+
+  function renderCategories() {
+    document.getElementById('focus-summary').textContent = focusCategories.length + ' Categories';
+    document.getElementById('focus-category-list').innerHTML = focusCategories.map((category, index) => `<button class="condition-row ${index === selectedCategoryIndex ? 'selected' : ''}" data-i="${index}"><div class="condition-index">${String(index + 1).padStart(2, '0')}</div><div class="condition-body"><div class="c-name">${category.name}</div><div class="c-sub">${category.products.length} products</div></div><span class="row-remove" data-remove="${index}" title="Remove category">&times;</span></button>`).join('');
+    document.querySelectorAll('#focus-category-list .condition-row').forEach(button => button.addEventListener('click', event => {
+      if (event.target.dataset.remove !== undefined) return;
+      selectedCategoryIndex = Number(button.dataset.i); renderCategories(); renderProducts();
+    }));
+    document.querySelectorAll('#focus-category-list [data-remove]').forEach(button => button.addEventListener('click', event => {
+      event.stopPropagation();
+      focusCategories.splice(Number(button.dataset.remove), 1);
+      selectedCategoryIndex = Math.max(0, Math.min(selectedCategoryIndex, focusCategories.length - 1));
+      renderCategories(); renderProducts();
+    }));
+  }
+
+  function renderProducts() {
+    const category = focusCategories[selectedCategoryIndex];
+    const list = document.getElementById('focus-product-list');
+    if (!category) {
+      document.getElementById('selected-category-title').textContent = 'Products';
+      document.getElementById('selected-product-count').textContent = '0 Products';
+      list.innerHTML = '<div class="notice">Add a category first.</div>';
+      return;
+    }
+    document.getElementById('selected-category-title').textContent = category.name;
+    document.getElementById('selected-product-count').textContent = category.products.length + ' Products';
+    list.innerHTML = category.products.length ? category.products.map((product, index) => `<div class="product-list-item"><span class="condition-index">${String(index + 1).padStart(2, '0')}</span><span class="product-name">${product}</span><button class="row-remove" data-i="${index}">&times;</button></div>`).join('') : '<div class="notice">No products in this category.</div>';
+    list.querySelectorAll('.row-remove').forEach(button => button.addEventListener('click', () => { category.products.splice(Number(button.dataset.i), 1); renderCategories(); renderProducts(); }));
+  }
+
+  document.getElementById('add-category').addEventListener('click', () => {
+    const input = document.getElementById('new-category');
+    const name = input.value.trim();
+    if (!name || focusCategories.some(category => category.name.toLowerCase() === name.toLowerCase())) return;
+    focusCategories.push({ name, products: [] }); selectedCategoryIndex = focusCategories.length - 1; input.value = ''; renderCategories(); renderProducts();
+  });
+  document.getElementById('add-focus-product').addEventListener('click', () => {
+    const category = focusCategories[selectedCategoryIndex];
+    const input = document.getElementById('new-focus-product');
+    const product = input.value.trim();
+    if (!category || !product || category.products.some(item => item.toLowerCase() === product.toLowerCase())) return;
+    category.products.push(product); input.value = ''; renderCategories(); renderProducts();
+  });
+
+  renderCategories(); renderProducts();
+</script>
+</body>
+</html>

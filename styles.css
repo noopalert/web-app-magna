@@ -206,6 +206,54 @@ a {
   opacity: 1;
 }
 
+.nav-group summary {
+  list-style: none;
+}
+
+.nav-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-summary .nav-chevron {
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+  transition: transform .2s ease;
+}
+
+.nav-group[open] .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.subnav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 4px 0 6px 30px;
+  padding-left: 12px;
+  border-left: 1px solid var(--border-med);
+}
+
+.subnav-item {
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: background .15s ease, color .15s ease;
+}
+
+.subnav-item:hover {
+  color: var(--text-primary);
+  background: var(--accent-soft);
+}
+
+.subnav-item.active {
+  color: var(--text-primary);
+  background: var(--accent-soft);
+  font-weight: 700;
+}
+
 .sidebar-footer {
   margin-top: auto;
   display: flex;
@@ -673,6 +721,128 @@ tbody tr:hover {
   margin-top: 4px;
 }
 
+.btn-danger {
+  color: var(--down);
+  background: var(--down-bg);
+  border: 1px solid color-mix(in srgb, var(--down) 35%, transparent);
+}
+
+.btn-sm {
+  padding: 7px 11px;
+  font-size: 12px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.toolbar .field {
+  min-width: 220px;
+  margin-bottom: 0;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.section-grid .panel {
+  margin-bottom: 0;
+}
+
+.rule-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.rule-card + .rule-card {
+  margin-top: 12px;
+}
+
+.rule-card-title {
+  color: var(--text-primary);
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.inline-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.category-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.meta-chip {
+  padding: 4px 8px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+}
+
+.product-list-item .product-name {
+  flex: 1;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.notice {
+  padding: 13px 14px;
+  border: 1px solid var(--border-med);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.terms-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.percentage-input {
+  font-variant-numeric: tabular-nums;
+}
+
 /* tabs */
 .tabs {
   display: flex;
@@ -776,6 +946,19 @@ tbody tr:hover {
   grid-template-columns: 1fr 130px 110px 38px;
 }
 
+.add-row-category {
+  grid-template-columns: 1fr 130px 110px 38px;
+}
+
+.category-create-card {
+  margin-bottom: 18px;
+}
+
+.add-row-rule,
+.add-row-salesman {
+  grid-template-columns: 150px 1fr 1fr 38px;
+}
+
 .add-row .field {
   margin-bottom: 0;
 }
@@ -834,6 +1017,16 @@ tbody tr:hover {
 .condition-row:hover {
   border-color: var(--border-med);
   background: var(--bg-panel);
+}
+
+.condition-row.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.product-focus-layout {
+  grid-template-columns: minmax(280px, .8fr) minmax(0, 1.4fr);
+  align-items: start;
 }
 
 .condition-index {
@@ -981,6 +1174,14 @@ tbody tr:hover {
   }
 
   .add-row {
+    grid-template-columns: 1fr;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-focus-layout {
     grid-template-columns: 1fr;
   }
 }

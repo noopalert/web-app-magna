@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
-<title>Magna Hardware — Category Tiers</title>
+<title>Magna Hardware — Discount Category</title>
 <link rel="stylesheet" href="styles.css">
 <script src="theme.js" defer></script>
 </head>
@@ -25,10 +25,19 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
         Discount
       </a>
-      <a class="nav-item" href="sales-commission.html">
+      <details class="nav-group">
+        <summary class="nav-item nav-summary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
         Sales Commission
-      </a>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="subnav">
+          <a class="subnav-item" href="sales-commission.html">Overview</a>
+          <a class="subnav-item" href="sales-commission-rules.html">Rules</a>
+          <a class="subnav-item" href="salesman-data.html">Salesman Data</a>
+          <a class="subnav-item" href="product-focus.html">Product Focus</a>
+        </div>
+      </details>
     </nav>
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -48,19 +57,58 @@
 
     <div class="page-head">
       <div>
-        <h1 id="condition-title">Category Tiers</h1>
-        <p>Set the minimum quantity and discount for every tier in this category.</p>
+        <h1 id="condition-title">Discount Category</h1>
+        <p>Configure the category rule and the products included in this category.</p>
       </div>
-      <button class="btn btn-primary" id="add-tier-btn">+ Add Tier</button>
     </div>
 
     <section class="panel">
-      <div class="panel-head"><h3 id="tier-panel-title">Tiers</h3><span class="tag" id="tier-count-tag">0 Tiers</span></div>
-      <div class="tier-list" id="tier-list"></div>
+      <div class="panel-head">
+        <div>
+          <h3>Category Rule</h3>
+          <div class="sub">The discount is applied when the combined quantity of included products reaches the minimum.</div>
+        </div>
+        <span class="tag" id="category-number">Category 01</span>
+      </div>
+      <div class="form-card">
+        <div class="tier-fields">
+          <div class="field">
+            <label>Category Name</label>
+            <input type="text" id="category-name">
+          </div>
+          <div class="field">
+            <label>Minimum Quantity</label>
+            <input type="number" id="category-min-qty" min="1" placeholder="e.g. 5">
+          </div>
+          <div class="field">
+            <label>Discount</label>
+            <input class="percentage-input" type="text" inputmode="decimal" id="category-discount" placeholder="e.g. 5">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Products in Category</h3>
+          <div class="sub">Add or remove products that contribute to this category's minimum quantity.</div>
+        </div>
+        <span class="tag" id="product-count">0 Products</span>
+      </div>
+
+      <div class="toolbar">
+        <div class="field">
+          <label>Product Name</label>
+          <input type="text" id="new-product" placeholder="Search or enter product name">
+        </div>
+        <button class="btn btn-primary" id="add-product">+ Add Product</button>
+      </div>
+      <div class="product-list" id="product-list"></div>
     </section>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="save-btn">Save Category Tiers</button>
+      <button class="btn btn-primary" id="save-btn">Save Category</button>
       <button class="btn btn-ghost" onclick="window.location.href='discount-settings.html'">Cancel</button>
     </div>
   </main>
@@ -68,83 +116,101 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
+  const categoryId = params.get('id') || '1';
   const category = params.get('category') || 'Mesin';
-  document.getElementById('condition-title').textContent = 'Discount 3 — ' + category;
-  document.getElementById('tier-panel-title').textContent = category + ' Tiers';
-  document.title = 'Magna Hardware — ' + category + ' Tiers';
+  document.getElementById('condition-title').textContent = `Category ${categoryId} — ${category}`;
+  document.getElementById('category-number').textContent = `Category ${String(categoryId).padStart(2, '0')}`;
+  document.title = 'Magna Hardware — ' + category + ' Products';
 
-  const seeded = {
+  const categorySettings = {
+    'Mesin': { minQty: 5, discount: '5%' },
+    'Pneumatics': { minQty: 2, discount: '3%' },
+    'Mata Planer': { minQty: 1, discount: '2%' },
+  };
+
+  const productSeed = {
     'Mesin': [
-      { category: 'Mesin', minQty: '5', discount: '' },
-      { category: 'Mesin', minQty: '2', discount: '' },
-      { category: 'Mesin', minQty: '1', discount: '' },
+      'MESIN GERGAJI KAYU LISTRIK 7INCH TOHO CIRCULAR SAW',
+      'MESIN POTONG RUMPUT CORDLESS GRASS CUTTER TOHO',
+      'MESIN BOR CORDLESS IMPACT DRILL TOHO 20V',
+      'MESIN GERINDA CORDLESS ANGLE GRINDER TOHO 20V',
+    ],
+    'Pneumatics': [
+      'AIR BLOW GUN 4INCH TOHO',
+      'AIR IMPACT WRENCH TOHO',
+      'MESIN PAKU TEMBAKAN ANGIN F32 TOHO AIR NAILER',
+    ],
+    'Mata Planer': [
+      'PLANER BLADE TOHO (TCT)',
     ],
   };
 
-  let tiers = (seeded[category] || []).map(t => ({ ...t }));
-  if (tiers.length === 0) {
-    tiers = [{ category, minQty: '', discount: '' }];
+  const storedSetting = categorySettings[category] || { minQty: 1, discount: '' };
+  const setting = {
+    minQty: params.get('minQty') || storedSetting.minQty,
+    discount: params.get('discount') || storedSetting.discount,
+  };
+  const products = [...(productSeed[category] || [])];
+  const categoryNameInput = document.getElementById('category-name');
+  const minimumQuantityInput = document.getElementById('category-min-qty');
+  const discountInput = document.getElementById('category-discount');
+  const productList = document.getElementById('product-list');
+
+  categoryNameInput.value = category;
+  minimumQuantityInput.value = setting.minQty;
+  discountInput.value = setting.discount;
+
+  function formatPercentage(input) {
+    const rawValue = input.value.replace('%', '').replace(',', '.').trim();
+    if (!rawValue || Number.isNaN(Number(rawValue))) {
+      input.value = '';
+      return '';
+    }
+    const safeValue = Math.min(100, Math.max(0, Number(rawValue)));
+    const formattedValue = `${Number.isInteger(safeValue) ? safeValue : safeValue.toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}%`;
+    input.value = formattedValue;
+    return formattedValue;
   }
 
-  const tierList = document.getElementById('tier-list');
-  const tierCountTag = document.getElementById('tier-count-tag');
+  discountInput.addEventListener('focus', () => {
+    discountInput.value = discountInput.value.replace('%', '');
+  });
+  discountInput.addEventListener('blur', () => formatPercentage(discountInput));
 
-  function renderTiers() {
-    tierCountTag.textContent = tiers.length + ' Tiers';
-    tierList.innerHTML = tiers.map((t, i) => `
-      <div class="tier-card">
-        <div class="tier-card-head">
-          <div class="t-name"><span class="tier-badge">${i + 1}</span> Tier ${i + 1}</div>
-          ${tiers.length > 1 ? `<button class="row-remove" data-i="${i}">&times;</button>` : ''}
-        </div>
-        <div class="tier-fields">
-          <div class="field">
-            <label>Category</label>
-            <select data-i="${i}" data-key="category">
-              <option value="Mesin" ${t.category === 'Mesin' ? 'selected' : ''}>Mesin</option>
-              <option value="Perkakas Tangan" ${t.category === 'Perkakas Tangan' ? 'selected' : ''}>Perkakas Tangan</option>
-              <option value="Safety Equipment" ${t.category === 'Safety Equipment' ? 'selected' : ''}>Safety Equipment</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Minimum Quantity</label>
-            <input type="number" min="1" data-i="${i}" data-key="minQty" value="${t.minQty}" placeholder="e.g. 5">
-          </div>
-          <div class="field">
-            <label>Discount</label>
-            <input type="text" data-i="${i}" data-key="discount" value="${t.discount}" placeholder="e.g. 5%">
-          </div>
-        </div>
+  function renderProducts() {
+    document.getElementById('product-count').textContent = products.length + ' Products';
+    productList.innerHTML = products.length ? products.map((product, index) => `
+      <div class="product-list-item">
+        <span class="condition-index">${String(index + 1).padStart(2, '0')}</span>
+        <span class="product-name">${product}</span>
+        <button class="row-remove" data-i="${index}" title="Remove product">&times;</button>
       </div>
-    `).join('');
+    `).join('') : '<div class="notice">Belum ada product dalam category ini.</div>';
 
-    tierList.querySelectorAll('input, select').forEach(input => {
-      input.addEventListener('input', () => {
-        tiers[Number(input.dataset.i)][input.dataset.key] = input.value;
-      });
-      input.addEventListener('change', () => {
-        tiers[Number(input.dataset.i)][input.dataset.key] = input.value;
-      });
-    });
-    tierList.querySelectorAll('.row-remove').forEach(btn => {
+    productList.querySelectorAll('.row-remove').forEach(btn => {
       btn.addEventListener('click', () => {
-        tiers.splice(Number(btn.dataset.i), 1);
-        renderTiers();
+        products.splice(Number(btn.dataset.i), 1);
+        renderProducts();
       });
     });
   }
 
-  document.getElementById('add-tier-btn').addEventListener('click', () => {
-    tiers.push({ category, minQty: '', discount: '' });
-    renderTiers();
+  document.getElementById('add-product').addEventListener('click', () => {
+    const input = document.getElementById('new-product');
+    const productName = input.value.trim();
+    if (!productName || products.some(product => product.toLowerCase() === productName.toLowerCase())) return;
+    products.push(productName);
+    input.value = '';
+    renderProducts();
   });
 
   document.getElementById('save-btn').addEventListener('click', () => {
-    // Placeholder for wiring to the backend (e.g. POST /api/discount-conditions/{id}/tiers)
-    alert('Category ' + category + ' tersimpan dengan ' + tiers.length + ' tier.');
+    const discount = formatPercentage(discountInput);
+    if (!categoryNameInput.value.trim() || Number(minimumQuantityInput.value) < 1 || !discount) return;
+    alert(`Category ${categoryNameInput.value.trim()} tersimpan dengan ${products.length} product.`);
   });
 
-  renderTiers();
+  renderProducts();
 </script>
 </body>
 </html>

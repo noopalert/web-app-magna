@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
+<title>Magna Hardware — Sales Commission Rules</title>
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V8l4-3 4 3v8M4 16h8M4 16l1.5 3h5L12 16M12 8l4-3 4 3v8h-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="brand-text"><div class="name">Magna Hardware</div><div class="sub">PT MAGNA HARDWARE</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Homepage</a>
+      <a class="nav-item" href="discount-settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>Discount</a>
+      <details class="nav-group" open>
+        <summary class="nav-item nav-summary active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>Sales Commission<svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="subnav">
+          <a class="subnav-item" href="sales-commission.html">Overview</a>
+          <a class="subnav-item active" href="sales-commission-rules.html">Rules</a>
+          <a class="subnav-item" href="salesman-data.html">Salesman Data</a>
+          <a class="subnav-item" href="product-focus.html">Product Focus</a>
+        </div>
+      </details>
+    </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></button>
+    <div class="sidebar-footer"><div class="avatar">R</div><div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div><h1>Sales Commission Rules</h1><p>Rules for regular and special-product commissions based on the January 2026 policy.</p></div>
+      <span class="tag">January 2026</span>
+    </div>
+
+    <section class="section-grid">
+      <div class="panel">
+        <div class="panel-head"><div><h3>Regular Commission</h3><div class="sub">Group achievement and commission by level.</div></div><span class="tag">11 Levels</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Level</th><th>Target / Achievement</th><th>Commission</th><th></th></tr></thead><tbody id="regular-rule-body"></tbody></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Special Product Commission</h3><div class="sub">Minimum 26 qualifying categories.</div></div><span class="tag">11 Levels</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Level</th><th>Target / Achievement</th><th>Commission</th><th></th></tr></thead><tbody id="sp-rule-body"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:22px;">
+      <div class="panel-head"><div><h3>Individual Clauses by Area</h3><div class="sub">Each level shows personal minimum achievement and maximum commission.</div></div><span class="tag">9 Areas</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Area / Sales</th><th>Target Store</th><th>I–III (Target / Max)</th><th>IV–VI (Target / Max)</th><th>VII–IX (Target / Max)</th><th>X (Target / Max)</th></tr></thead><tbody id="area-rule-body"></tbody></table></div>
+    </section>
+
+    <section class="section-grid">
+      <div class="panel">
+        <div class="panel-head"><h3>Special Targets</h3><span class="tag">Required</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Target</th><th>Minimum</th></tr></thead><tbody>
+          <tr><td class="cell-strong">Mata Planer Sales</td><td>Rp 1,500,000</td></tr>
+          <tr><td class="cell-strong">Machine Sales</td><td>Rp 20,000,000</td></tr>
+          <tr><td class="cell-strong">Pneumatic Sales</td><td>Rp 1,000,000</td></tr>
+          <tr><td class="cell-strong">Activation / Reactivation</td><td>3 transactions</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>SP Penalties</h3><span class="tag">Commission Cut</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Failed Special Targets</th><th>Penalty</th></tr></thead><tbody>
+          <tr><td class="cell-strong">1 failed target</td><td>15%</td></tr>
+          <tr><td class="cell-strong">2 failed targets</td><td>30%</td></tr>
+          <tr><td class="cell-strong">3 failed targets</td><td>45%</td></tr>
+        </tbody></table></div>
+        <div class="notice" style="margin-top:14px;">Penalty is deducted from the earned Special Product commission.</div>
+      </div>
+    </section>
+
+    <section class="section-grid" style="margin-top:22px;">
+      <div class="panel">
+        <div class="panel-head"><h3>Additional SP Category Bonus</h3></div>
+        <div class="table-wrap"><table><thead><tr><th>Categories</th><th>Achievement</th><th>Bonus</th></tr></thead><tbody>
+          <tr><td>27</td><td>Rp 80,000,000</td><td>Rp 500,000</td></tr>
+          <tr><td>31</td><td>Rp 100,000,000</td><td>Rp 1,500,000</td></tr>
+          <tr><td>34</td><td>Rp 168,000,000</td><td>Rp 3,000,000</td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Activation / Reactivation Bonus</h3></div>
+        <div class="table-wrap"><table><thead><tr><th>Level</th><th>Transactions</th><th>Bonus</th></tr></thead><tbody id="activation-rule-body"></tbody></table></div>
+        <div class="notice" style="margin-top:14px;">Activation: a new customer with no transaction history. Reactivation: a customer transacting again after at least one year without transactions.</div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:22px;">
+      <div class="panel-head"><div><h3>Commission Terms</h3><div class="sub">Operational requirements from the January 2026 policy.</div></div></div>
+      <ol class="terms-list">
+        <li>Achievement is calculated only from invoiced transactions.</li>
+        <li>Achievement uses the amount before tax and net of returns and uncollectible receivables.</li>
+        <li>Commission is processed in the fifth month after the transaction period and paid with month-end payroll.</li>
+        <li>Regular commission requires both the personal minimum target and minimum store transaction target.</li>
+        <li>Special Product commission requires the minimum value and minimum qualifying-category targets.</li>
+        <li>Commission for resigned employees is held until their customer receivables are settled.</li>
+      </ol>
+    </section>
+
+    <section class="panel" style="margin-top:22px;">
+      <div class="panel-head"><div><h3>Add Commission Level</h3><div class="sub">Add a new level to the selected commission scheme.</div></div></div>
+      <div class="add-row add-row-rule">
+        <div class="field"><label>Scheme</label><select id="new-scheme"><option value="regular">Regular</option><option value="sp">Special Product</option></select></div>
+        <div class="field"><label>Target</label><input id="new-target" type="text" placeholder="e.g. 15,000,000,000"></div>
+        <div class="field"><label>Commission</label><input id="new-commission" type="text" placeholder="e.g. 20,000,000"></div>
+        <button class="btn-add" id="add-rule" title="Add commission level">+</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const regularRules = [
+    ['0', '< Rp 8,100,000,000', 'Rp 0'], ['1', 'Rp 8,100,000,000', 'Rp 1,210,000'], ['2', 'Rp 8,600,000,000', 'Rp 1,760,000'],
+    ['3', 'Rp 9,100,000,000', 'Rp 2,530,000'], ['4', 'Rp 9,700,000,000', 'Rp 3,410,000'], ['5', 'Rp 10,200,000,000', 'Rp 5,060,000'],
+    ['6', 'Rp 10,700,000,000', 'Rp 7,150,000'], ['7', 'Rp 11,200,000,000', 'Rp 9,570,000'], ['8', 'Rp 12,100,000,000', 'Rp 14,100,000'],
+    ['9', 'Rp 13,100,000,000', 'Rp 17,200,000'], ['10', '> Rp 14,200,000,000', 'Rp 19,000,000']
+  ];
+  const spRules = [
+    ['0', '< Rp 54,000,000', 'Rp 0'], ['1', 'Rp 58,000,000', 'Rp 400,000'], ['2', 'Rp 67,000,000', 'Rp 900,000'],
+    ['3', 'Rp 74,000,000', 'Rp 1,400,000'], ['4', 'Rp 89,000,000', 'Rp 2,300,000'], ['5', 'Rp 103,000,000', 'Rp 3,400,000'],
+    ['6', 'Rp 123,000,000', 'Rp 4,500,000'], ['7', 'Rp 169,000,000', 'Rp 5,900,000'], ['8', 'Rp 214,000,000', 'Rp 7,000,000'],
+    ['9', 'Rp 259,000,000', 'Rp 8,200,000'], ['10', '> Rp 315,000,000', 'Rp 11,600,000']
+  ];
+  const areaRules = [
+    ['Jakarta & Jabar', '30', 'Rp 290M / 2.53M', 'Rp 380M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Kalimantan & Sulawesi', '30', 'Rp 330M / 2.53M', 'Rp 400M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Jateng & Jatim', '30', 'Rp 330M / 2.53M', 'Rp 400M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Sumatera', '30', 'Rp 280M / 2.53M', 'Rp 380M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Edi Mintoro', '23', 'Rp 200M / 2.53M', 'Rp 320M / 7.15M', 'Rp 400M / 17.2M', 'Rp 500M / 19M'],
+    ['Ravy & Ihsan', '30', 'Rp 270M / 2.53M', 'Rp 380M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Kelvin', '30', 'Rp 240M / 2.53M', 'Rp 380M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M'],
+    ['Ambon & Papua', '30', 'Rp 350M / 2.53M', 'Rp 450M / 7.15M', 'Rp 700M / 17.2M', 'Rp 1B / 19M'],
+    ['Bali, NTT & NTB', '30', 'Rp 350M / 2.53M', 'Rp 400M / 7.15M', 'Rp 500M / 17.2M', 'Rp 580M / 19M']
+  ];
+  const activationRules = [['0','3','Rp 0'],['1','6','Rp 600,000'],['2','8','Rp 800,000'],['3','10','Rp 1,000,000'],['4','12','Rp 1,200,000'],['5','13','Rp 2,000,000'],['6','21','Rp 3,000,000']];
+
+  function renderCommissionRules(bodyId, rows) {
+    document.getElementById(bodyId).innerHTML = rows.map((row, index) => `<tr><td><span class="rank-badge">${row[0]}</span></td><td>${row[1]}</td><td class="cell-strong">${row[2]}</td><td><button class="row-remove" data-i="${index}">&times;</button></td></tr>`).join('');
+    document.getElementById(bodyId).querySelectorAll('.row-remove').forEach(button => button.addEventListener('click', () => { rows.splice(Number(button.dataset.i), 1); renderCommissionRules(bodyId, rows); }));
+  }
+
+  document.getElementById('area-rule-body').innerHTML = areaRules.map(row => `<tr>${row.map((cell, index) => `<td class="${index === 0 ? 'cell-strong' : ''}">${cell}</td>`).join('')}</tr>`).join('');
+  document.getElementById('activation-rule-body').innerHTML = activationRules.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td class="cell-strong">${row[2]}</td></tr>`).join('');
+
+  document.getElementById('add-rule').addEventListener('click', () => {
+    const scheme = document.getElementById('new-scheme').value;
+    const target = document.getElementById('new-target');
+    const commission = document.getElementById('new-commission');
+    if (!target.value.trim() || !commission.value.trim()) return;
+    const rules = scheme === 'regular' ? regularRules : spRules;
+    rules.push([String(rules.length), 'Rp ' + target.value.trim(), 'Rp ' + commission.value.trim()]);
+    renderCommissionRules(scheme === 'regular' ? 'regular-rule-body' : 'sp-rule-body', rules);
+    target.value = ''; commission.value = '';
+  });
+
+  renderCommissionRules('regular-rule-body', regularRules);
+  renderCommissionRules('sp-rule-body', spRules);
+</script>
+</body>
+</html>

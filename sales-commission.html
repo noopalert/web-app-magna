@@ -34,10 +34,19 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
         Discount
       </a>
-      <a class="nav-item active" href="sales-commission.html">
+      <details class="nav-group" open>
+        <summary class="nav-item nav-summary active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="7"/><rect x="12" y="8" width="3" height="11"/><rect x="17" y="14" width="3" height="5"/></svg>
         Sales Commission
-      </a>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="subnav">
+          <a class="subnav-item active" href="sales-commission.html">Overview</a>
+          <a class="subnav-item" href="sales-commission-rules.html">Rules</a>
+          <a class="subnav-item" href="salesman-data.html">Salesman Data</a>
+          <a class="subnav-item" href="product-focus.html">Product Focus</a>
+        </div>
+      </details>
     </nav>
     <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -109,37 +118,13 @@
     </section>
 
     <div class="content-grid">
-      <!-- Update or Create New Rule Commission -->
+      <!-- Commission management shortcuts -->
       <section class="panel">
-        <div class="panel-head"><h3>Update or Create New Rule Commission</h3></div>
-        <div class="tabs">
-          <div class="tab-item active">National</div>
-          <div class="tab-item">Regional</div>
-          <div class="tab-item">SP</div>
-        </div>
-        <div class="form-card">
-          <div class="field-grid">
-            <div class="field">
-              <label>Rule Name</label>
-              <input type="text" placeholder="e.g. Q3 Regional Incentive">
-            </div>
-            <div class="field">
-              <label>Commission Rate</label>
-              <input type="text" placeholder="e.g. 3.5%">
-            </div>
-            <div class="field">
-              <label>Target Sales</label>
-              <input type="text" placeholder="e.g. Rp 500,000,000">
-            </div>
-            <div class="field">
-              <label>Effective Period</label>
-              <input type="text" placeholder="e.g. Q3 2026">
-            </div>
-          </div>
-          <div class="btn-row">
-            <button class="btn btn-primary">Submit</button>
-            <button class="btn btn-ghost">Cancel</button>
-          </div>
+        <div class="panel-head"><div><h3>Commission Management</h3><div class="sub">Open a dedicated page to manage commission master data.</div></div></div>
+        <div class="condition-list">
+          <a class="condition-row" href="sales-commission-rules.html"><div class="condition-index">01</div><div class="condition-body"><div class="c-name">Rules</div><div class="c-sub">Regular, Special Product, regional clauses, bonus and penalty.</div></div></a>
+          <a class="condition-row" href="salesman-data.html"><div class="condition-index">02</div><div class="condition-body"><div class="c-name">Salesman Data</div><div class="c-sub">Names, positions and regional assignments.</div></div></a>
+          <a class="condition-row" href="product-focus.html"><div class="condition-index">03</div><div class="condition-body"><div class="c-name">Product Focus</div><div class="c-sub">Special Product categories and included products.</div></div></a>
         </div>
       </section>
 
@@ -158,13 +143,5 @@
   </main>
 </div>
 
-<script>
-  document.querySelectorAll('.tab-item').forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-    });
-  });
-</script>
 </body>
 </html>
