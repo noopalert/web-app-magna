@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
 <title>Magna Hardware — Sales Commission</title>
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
 <style>
   .activity-list{display:flex;flex-direction:column;}
   .activity-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-soft);}
@@ -37,6 +39,10 @@
         Sales Commission
       </a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+    </button>
     <div class="sidebar-footer">
       <div class="avatar">R</div>
       <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>

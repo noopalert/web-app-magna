@@ -3,27 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
 <title>Magna Hardware — Dashboard</title>
 <link rel="stylesheet" href="styles.css">
+<script src="theme.js" defer></script>
 <style>
   .chart{display:flex;align-items:flex-end;gap:16px;height:220px;padding:0 4px;}
   .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
   .bar-val{font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:8px;}
   .bar{width:100%;max-width:34px;border-radius:6px 6px 3px 3px;
     background:linear-gradient(180deg, var(--accent-grad-top), var(--accent-grad-bot));
-    box-shadow:0 0 0 1px rgba(159,155,176,.15) inset;}
+    box-shadow:0 0 0 1px var(--accent-medium) inset;}
   .bar-city{font-size:11.5px;color:var(--text-muted);margin-top:10px;font-weight:500;}
 
   .discount-list{display:flex;flex-direction:column;}
   .discount-item{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border-soft);}
   .discount-item:last-child{border-bottom:none;padding-bottom:0;}
-  .discount-icon{width:36px;height:36px;border-radius:10px;background:rgba(159,155,176,.12);
+  .discount-icon{width:36px;height:36px;border-radius:10px;background:var(--accent-soft);
     border:1px solid var(--border-med);display:flex;align-items:center;justify-content:center;
     color:var(--accent);font-weight:800;font-size:15px;flex-shrink:0;}
   .discount-info{flex:1;min-width:0;}
   .discount-info .d-name{font-size:13.5px;font-weight:600;color:var(--text-primary);}
   .discount-info .d-exp{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
-  .discount-tag{font-size:11.5px;font-weight:700;color:#151420;background:var(--secondary);
+  .discount-tag{font-size:11.5px;font-weight:700;color:var(--on-accent);background:var(--secondary);
     padding:5px 10px;border-radius:8px;white-space:nowrap;}
 </style>
 </head>
@@ -49,6 +51,10 @@
         Sales Commission
       </a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+    </button>
     <div class="sidebar-footer">
       <div class="avatar">R</div>
       <div><div class="u-name">Rusdi</div><div class="u-role">Sales Manager</div></div>
