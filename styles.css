@@ -772,6 +772,10 @@ tbody tr:hover {
   align-items: end;
 }
 
+.add-row-quantity {
+  grid-template-columns: 1fr 130px 110px 38px;
+}
+
 .add-row .field {
   margin-bottom: 0;
 }
@@ -940,7 +944,7 @@ tbody tr:hover {
 
 .tier-fields {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 

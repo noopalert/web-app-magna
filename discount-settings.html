@@ -125,13 +125,53 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h3>Discount Setting 2 — Condition Tiers</h3>
-          <div class="sub">Each condition holds tiers (Tier 1, 2, 3, …) based on a minimum and maximum purchase amount. Click a condition to configure its tiers.</div>
+          <h3>Discount Setting 2 — Product Minimum Quantity</h3>
+          <div class="sub">Set an additional discount per product when the minimum quantity is reached.</div>
         </div>
-        <span class="tag">7 Conditions</span>
+        <span class="tag" id="d2-count-tag">0 Rules</span>
       </div>
 
-      <div class="condition-list" id="condition-list"></div>
+      <div class="mini-table-wrap">
+        <table>
+          <thead><tr><th>Nama Barang</th><th>Minimum Qty</th><th>Discount</th><th></th></tr></thead>
+          <tbody id="d2-tbody"></tbody>
+        </table>
+      </div>
+      <div class="add-row add-row-quantity">
+        <div class="field">
+          <label>Nama Barang</label>
+          <select id="d2-product-select">
+            <option value="">Pilih barang</option>
+            <option>Bosch GSB 13 RE Impact Drill</option>
+            <option>Tekiro Combination Wrench Set</option>
+            <option>Krisbow Safety Helmet</option>
+            <option>Stanley Measuring Tape 5M</option>
+            <option>Kenmaster Hex Bolt M8 (Box)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Minimum Qty</label>
+          <input type="number" id="d2-min-qty" min="1" placeholder="e.g. 3">
+        </div>
+        <div class="field">
+          <label>Discount</label>
+          <input type="text" id="d2-discount" placeholder="e.g. 2%">
+        </div>
+        <button class="btn-add" id="d2-add" title="Tambah discount minimum quantity">+</button>
+      </div>
+    </section>
+
+    <!-- ================= DISCOUNT SETTING 3 ================= -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Discount Setting 3 — Category Tiers</h3>
+          <div class="sub">Configure tiered discounts for each category. Each tier has its own minimum quantity.</div>
+        </div>
+        <span class="tag" id="d3-count-tag">0 Categories</span>
+      </div>
+
+      <div class="condition-list" id="category-tier-list"></div>
     </section>
 
   </main>
@@ -210,24 +250,68 @@
   renderProductTable();
   renderCustomerTable();
 
-  /* ---------- DISCOUNT 2 : condition -> tier ---------- */
-  const conditions = [
-    { id: 1, label: 'Condition 1', tiers: 3 },
-    { id: 2, label: 'Condition 2', tiers: 3 },
-    { id: 3, label: 'Condition 3', tiers: 0 },
-    { id: 4, label: 'Condition 4', tiers: 0 },
-    { id: 5, label: 'Condition 5', tiers: 0 },
-    { id: 6, label: 'Condition 6', tiers: 0 },
-    { id: 7, label: 'Condition 7', tiers: 0 },
+  /* ---------- DISCOUNT 2 : product + minimum quantity ---------- */
+  const d2Rows = [
+    { name: 'Bosch GSB 13 RE Impact Drill', minQty: 3, discount: '2%' },
   ];
 
-  const list = document.getElementById('condition-list');
-  list.innerHTML = conditions.map(c => `
-    <button class="condition-row" data-id="${c.id}">
-      <div class="condition-index">${String(c.id).padStart(2, '0')}</div>
+  function renderD2Table() {
+    const tbody = document.getElementById('d2-tbody');
+    document.getElementById('d2-count-tag').textContent = d2Rows.length + ' Rules';
+
+    if (d2Rows.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Belum ada discount minimum quantity per barang.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = d2Rows.map((row, index) => `
+      <tr>
+        <td class="cell-strong">${row.name}</td>
+        <td>${row.minQty} unit</td>
+        <td>${row.discount}</td>
+        <td style="width:36px;"><button class="row-remove" data-i="${index}">&times;</button></td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.row-remove').forEach(button => {
+      button.addEventListener('click', () => {
+        d2Rows.splice(Number(button.dataset.i), 1);
+        renderD2Table();
+      });
+    });
+  }
+
+  document.getElementById('d2-add').addEventListener('click', () => {
+    const product = document.getElementById('d2-product-select');
+    const minQty = document.getElementById('d2-min-qty');
+    const discount = document.getElementById('d2-discount');
+
+    if (!product.value || !minQty.value || Number(minQty.value) < 1 || !discount.value.trim()) return;
+
+    d2Rows.push({ name: product.value, minQty: Number(minQty.value), discount: discount.value.trim() });
+    product.value = '';
+    minQty.value = '';
+    discount.value = '';
+    renderD2Table();
+  });
+
+  renderD2Table();
+
+  /* ---------- DISCOUNT 3 : category -> tier ---------- */
+  const categoryTiers = [
+    { category: 'Mesin', tiers: 3 },
+    { category: 'Perkakas Tangan', tiers: 0 },
+    { category: 'Safety Equipment', tiers: 0 },
+  ];
+
+  const categoryTierList = document.getElementById('category-tier-list');
+  document.getElementById('d3-count-tag').textContent = categoryTiers.length + ' Categories';
+  categoryTierList.innerHTML = categoryTiers.map((item, index) => `
+    <button class="condition-row" data-category="${item.category}">
+      <div class="condition-index">${String(index + 1).padStart(2, '0')}</div>
       <div class="condition-body">
-        <div class="c-name">${c.label}</div>
-        <div class="c-sub">${c.tiers > 0 ? c.tiers + ' tier configured' : 'Belum dikonfigurasi'}</div>
+        <div class="c-name">${item.category}</div>
+        <div class="c-sub">${item.tiers > 0 ? item.tiers + ' tier configured' : 'Belum dikonfigurasi'}</div>
       </div>
       <div class="condition-chevron">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
@@ -235,9 +319,9 @@
     </button>
   `).join('');
 
-  list.querySelectorAll('.condition-row').forEach(row => {
+  categoryTierList.querySelectorAll('.condition-row').forEach(row => {
     row.addEventListener('click', () => {
-      window.location.href = `discount-condition.html?condition=${row.dataset.id}`;
+      window.location.href = `discount-condition.html?category=${encodeURIComponent(row.dataset.category)}`;
     });
   });
 </script>

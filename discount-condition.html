@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
-<title>Magna Hardware — Condition Tiers</title>
+<title>Magna Hardware — Category Tiers</title>
 <link rel="stylesheet" href="styles.css">
 <script src="theme.js" defer></script>
 </head>
@@ -48,19 +48,19 @@
 
     <div class="page-head">
       <div>
-        <h1 id="condition-title">Condition</h1>
-        <p>Set the minimum and maximum purchase amount (Rp) for each tier under this condition.</p>
+        <h1 id="condition-title">Category Tiers</h1>
+        <p>Set the minimum quantity and discount for every tier in this category.</p>
       </div>
       <button class="btn btn-primary" id="add-tier-btn">+ Add Tier</button>
     </div>
 
     <section class="panel">
-      <div class="panel-head"><h3>Tiers</h3><span class="tag" id="tier-count-tag">0 Tiers</span></div>
+      <div class="panel-head"><h3 id="tier-panel-title">Tiers</h3><span class="tag" id="tier-count-tag">0 Tiers</span></div>
       <div class="tier-list" id="tier-list"></div>
     </section>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="save-btn">Save Condition</button>
+      <button class="btn btn-primary" id="save-btn">Save Category Tiers</button>
       <button class="btn btn-ghost" onclick="window.location.href='discount-settings.html'">Cancel</button>
     </div>
   </main>
@@ -68,28 +68,22 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const conditionId = params.get('condition') || '1';
-  document.getElementById('condition-title').textContent = 'Condition ' + conditionId;
-  document.title = 'Magna Hardware — Condition ' + conditionId + ' Tiers';
+  const category = params.get('category') || 'Mesin';
+  document.getElementById('condition-title').textContent = 'Discount 3 — ' + category;
+  document.getElementById('tier-panel-title').textContent = category + ' Tiers';
+  document.title = 'Magna Hardware — ' + category + ' Tiers';
 
-  /* Demo default data — Condition 1 & 2 already have 3 tiers configured,
-     mirrors the "Tier 1 / 2 / 3" rows from the reference sheet. */
   const seeded = {
-    '1': [
-      { min: '0', max: '5.000.000' },
-      { min: '5.000.001', max: '15.000.000' },
-      { min: '15.000.001', max: '' },
-    ],
-    '2': [
-      { min: '0', max: '10.000.000' },
-      { min: '10.000.001', max: '30.000.000' },
-      { min: '30.000.001', max: '' },
+    'Mesin': [
+      { category: 'Mesin', minQty: '5', discount: '' },
+      { category: 'Mesin', minQty: '2', discount: '' },
+      { category: 'Mesin', minQty: '1', discount: '' },
     ],
   };
 
-  let tiers = (seeded[conditionId] || []).map(t => ({ ...t }));
+  let tiers = (seeded[category] || []).map(t => ({ ...t }));
   if (tiers.length === 0) {
-    tiers = [{ min: '', max: '' }];
+    tiers = [{ category, minQty: '', discount: '' }];
   }
 
   const tierList = document.getElementById('tier-list');
@@ -105,25 +99,30 @@
         </div>
         <div class="tier-fields">
           <div class="field">
-            <label>Minimum Belanja</label>
-            <div class="input-prefix">
-              <span>Rp</span>
-              <input type="text" data-i="${i}" data-key="min" value="${t.min}" placeholder="0">
-            </div>
+            <label>Category</label>
+            <select data-i="${i}" data-key="category">
+              <option value="Mesin" ${t.category === 'Mesin' ? 'selected' : ''}>Mesin</option>
+              <option value="Perkakas Tangan" ${t.category === 'Perkakas Tangan' ? 'selected' : ''}>Perkakas Tangan</option>
+              <option value="Safety Equipment" ${t.category === 'Safety Equipment' ? 'selected' : ''}>Safety Equipment</option>
+            </select>
           </div>
           <div class="field">
-            <label>Maksimum Belanja</label>
-            <div class="input-prefix">
-              <span>Rp</span>
-              <input type="text" data-i="${i}" data-key="max" value="${t.max}" placeholder="Tanpa batas">
-            </div>
+            <label>Minimum Quantity</label>
+            <input type="number" min="1" data-i="${i}" data-key="minQty" value="${t.minQty}" placeholder="e.g. 5">
+          </div>
+          <div class="field">
+            <label>Discount</label>
+            <input type="text" data-i="${i}" data-key="discount" value="${t.discount}" placeholder="e.g. 5%">
           </div>
         </div>
       </div>
     `).join('');
 
-    tierList.querySelectorAll('input').forEach(input => {
+    tierList.querySelectorAll('input, select').forEach(input => {
       input.addEventListener('input', () => {
+        tiers[Number(input.dataset.i)][input.dataset.key] = input.value;
+      });
+      input.addEventListener('change', () => {
         tiers[Number(input.dataset.i)][input.dataset.key] = input.value;
       });
     });
@@ -136,13 +135,13 @@
   }
 
   document.getElementById('add-tier-btn').addEventListener('click', () => {
-    tiers.push({ min: '', max: '' });
+    tiers.push({ category, minQty: '', discount: '' });
     renderTiers();
   });
 
   document.getElementById('save-btn').addEventListener('click', () => {
     // Placeholder for wiring to the backend (e.g. POST /api/discount-conditions/{id}/tiers)
-    alert('Condition ' + conditionId + ' tersimpan dengan ' + tiers.length + ' tier.');
+    alert('Category ' + category + ' tersimpan dengan ' + tiers.length + ' tier.');
   });
 
   renderTiers();
