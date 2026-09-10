@@ -942,20 +942,11 @@ tbody tr:hover {
 }
 
 /* ===================== DISCOUNT 1 — CUSTOMER / PRODUCT ===================== */
-.split-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.split-grid .panel {
-  margin-bottom: 0;
-}
 
 .mini-table-wrap {
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-md);
-  overflow: hidden;
+  /* overflow: hidden; */
   margin-bottom: 16px;
 }
 

@@ -53,80 +53,70 @@
     <div class="page-head">
       <div>
         <h1>Discount Management</h1>
-        <p>Manage discount rules per product/customer, and tiered discount conditions.</p>
+        <p>Manage product, quantity, category, payment-method, and invoice-reward rules.</p>
       </div>
     </div>
-
-    <div class="notice priority-notice"><strong>Discount priority:</strong> product discount is evaluated first. Customer discount is used only when no matching product discount exists.</div>
 
     <!-- ================= DISCOUNT SETTING 1 ================= -->
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h3>Discount Setting 1 — Product &amp; Customer</h3>
-          <div class="sub">A discount can be attached directly to a product, or to a specific customer.</div>
+          <h3>Discount Setting 1 — Product</h3>
+          <div class="sub">Attach a base discount directly to an individual product.</div>
         </div>
         <span class="tag" id="d1-count-tag">0 Rules</span>
       </div>
-
-      <div class="split-grid">
-
-        <!-- Per Product -->
-        <div class="panel" style="background:transparent;border:none;padding:0;">
-          <div class="panel-head" style="margin-bottom:12px;">
-            <h3 style="font-size:13.5px;">Discount by Product</h3>
-            <div class="panel-head-actions"><span class="tag">Priority 1</span><button type="button" class="section-add-btn" data-form-open="product">+ Add Rule</button></div>
-          </div>
-          <div class="mini-table-wrap">
-            <table>
-              <thead><tr><th>Nama Barang</th><th>Discount</th><th></th></tr></thead>
-              <tbody id="product-tbody"></tbody>
-            </table>
-          </div>
-          <div class="rule-entry-form collapsible-rule-form" id="product-form" hidden>
-            <div class="inline-form-head"><strong id="product-form-title">Add Product Discount</strong><button type="button" class="form-close" data-form-close="product" aria-label="Close form">&times;</button></div>
-            <div class="add-row">
-              <div class="field"><label>Nama Barang</label><select id="product-select"><option value="">Pilih barang</option><option>Bosch GSB 13 RE Impact Drill</option><option>Tekiro Combination Wrench Set</option><option>Krisbow Safety Helmet</option><option>Stanley Measuring Tape 5M</option><option>Kenmaster Hex Bolt M8 (Box)</option></select></div>
-              <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="product-discount" placeholder="e.g. 10"></div>
-              <button type="button" class="btn-add" id="product-add">Save</button>
+      <!-- Per Product -->
+      <div class="panel" style="background:transparent;border:none;padding:0;">
+        <div class="panel-head" style="margin-bottom:12px;">
+          <h3 style="font-size:13.5px;">Discount by Product</h3>
+          <div class="panel-head-actions"><button type="button" class="section-add-btn" data-form-open="product">+ Add Rule</button></div>
+        </div>
+        <div class="mini-table-wrap">
+          <table>
+            <thead><tr><th>Nama Barang</th><th>Discount</th><th></th></tr></thead>
+            <tbody id="product-tbody"></tbody>
+          </table>
+        </div>
+        <div class="rule-entry-form collapsible-rule-form" id="product-form" hidden>
+          <div class="inline-form-head"><strong id="product-form-title">Add Product Discount</strong><button type="button" class="form-close" data-form-close="product" aria-label="Close form">&times;</button></div>
+          <div class="add-row">
+            <div class="field">
+              <label>Nama Barang</label>
+              <select id="product-select">
+                <option value="">Pilih barang</option>
+                <option>Bosch GSB 13 RE Impact Drill</option>
+                <option>Tekiro Combination Wrench Set</option>
+                <option>Krisbow Safety Helmet</option>
+                <option>Stanley Measuring Tape 5M</option>
+                <option>Kenmaster Hex Bolt M8 (Box)</option></select></div>
+            <div class="field">
+              <label>Discount</label>
+              <input class="percentage-input" type="text" inputmode="decimal" id="product-discount" placeholder="e.g. 10">
             </div>
-            <div class="lifecycle-grid lifecycle-grid-compact">
-              <div class="field"><label>Start At</label><input type="date" id="product-start-at" value="2026-09-09"></div>
-              <div class="field"><label>Expired At</label><input type="date" id="product-expired-at" value="2026-10-09"></div>
-              <div class="field"><label>Created By</label><input type="text" id="product-created-by" value="Rusdi"></div>
-              <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="product-is-active" checked><span><strong>Is Active</strong><small>Product rule can be applied</small></span></label></div>
+            <button type="button" class="btn-add" id="product-add">Save</button>
+          </div>
+          <div class="lifecycle-grid lifecycle-grid-compact">
+            <div class="field">
+              <label>Start At</label>
+              <input type="date" id="product-start-at" value="2026-09-09">
+            </div>
+            <div class="field">
+              <label>Expired At</label>
+              <input type="date" id="product-expired-at" value="2026-10-09">
+            </div>
+            <div class="field">
+              <label>Created By</label>
+              <input type="text" id="product-created-by" value="Rusdi">
+            </div>
+            <div class="field status-field">
+              <label>Status</label>
+              <label class="checkbox-field">
+                <input type="checkbox" id="product-is-active" checked><span><strong>Is Active</strong><small>Product rule can be applied</small></span>
+              </label>
             </div>
           </div>
         </div>
-
-        <!-- Per Customer -->
-        <div class="panel" style="background:transparent;border:none;padding:0;">
-          <div class="panel-head" style="margin-bottom:12px;">
-            <h3 style="font-size:13.5px;">Discount by Customer</h3>
-            <div class="panel-head-actions"><span class="tag">Priority 2</span><button type="button" class="section-add-btn" data-form-open="customer">+ Add Rule</button></div>
-          </div>
-          <div class="mini-table-wrap">
-            <table>
-              <thead><tr><th>Nama Customer</th><th>Discount</th><th></th></tr></thead>
-              <tbody id="customer-tbody"></tbody>
-            </table>
-          </div>
-          <div class="rule-entry-form collapsible-rule-form" id="customer-form" hidden>
-            <div class="inline-form-head"><strong id="customer-form-title">Add Customer Discount</strong><button type="button" class="form-close" data-form-close="customer" aria-label="Close form">&times;</button></div>
-            <div class="add-row">
-              <div class="field"><label>Nama Customer</label><select id="customer-select"><option value="">Pilih customer</option><option>CV Sumber Jaya Bangunan</option><option>Toko Berkah Teknik</option><option>PT Cipta Konstruksi Utama</option><option>UD Mitra Perkakas</option><option>Toko Sinar Abadi</option></select></div>
-              <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="customer-discount" placeholder="e.g. 5"></div>
-              <button type="button" class="btn-add" id="customer-add">Save</button>
-            </div>
-            <div class="lifecycle-grid lifecycle-grid-compact">
-              <div class="field"><label>Start At</label><input type="date" id="customer-start-at" value="2026-09-09"></div>
-              <div class="field"><label>Expired At</label><input type="date" id="customer-expired-at" value="2026-10-09"></div>
-              <div class="field"><label>Created By</label><input type="text" id="customer-created-by" value="Rusdi"></div>
-              <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="customer-is-active" checked><span><strong>Is Active</strong><small>Customer rule can be applied</small></span></label></div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
@@ -201,6 +191,79 @@
       <div class="condition-list" id="category-tier-list"></div>
     </section>
 
+    <!-- ================= DISCOUNT SETTING 4 ================= -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Discount Setting 4 — Payment Method</h3>
+          <div class="sub">Set an additional discount based on whether the customer pays by cash or credit.</div>
+        </div>
+        <div class="panel-head-actions"><span class="tag" id="d4-count-tag">0 Rules</span><button type="button" class="section-add-btn" data-form-open="d4">+ Add Rule</button></div>
+      </div>
+
+      <div class="mini-table-wrap">
+        <table>
+          <thead><tr><th>Payment Method</th><th>Discount</th><th></th></tr></thead>
+          <tbody id="d4-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="rule-entry-form rule-entry-form-wide collapsible-rule-form" id="d4-form" hidden>
+        <div class="inline-form-head"><strong id="d4-form-title">Add Payment Method Discount</strong><button type="button" class="form-close" data-form-close="d4" aria-label="Close form">&times;</button></div>
+        <div class="add-row">
+          <div class="field">
+            <label>Payment Method</label>
+            <select id="d4-payment-method">
+              <option value="">Pilih payment method</option>
+              <option value="Cash">Cash</option>
+              <option value="Kredit">Kredit</option>
+            </select>
+          </div>
+          <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="d4-discount" placeholder="e.g. 5"></div>
+          <button type="button" class="btn-add" id="d4-add">Save</button>
+        </div>
+        <div class="lifecycle-grid lifecycle-grid-compact">
+          <div class="field"><label>Start At</label><input type="date" id="d4-start-at" value="2026-09-09"></div>
+          <div class="field"><label>Expired At</label><input type="date" id="d4-expired-at" value="2026-10-09"></div>
+          <div class="field"><label>Created By</label><input type="text" id="d4-created-by" value="Rusdi"></div>
+          <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="d4-is-active" checked><span><strong>Is Active</strong><small>Payment rule can be applied</small></span></label></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DISCOUNT SETTING 5 ================= -->
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Discount Setting 5 — Invoice Amount Reward</h3>
+          <div class="sub">Give free T-shirts when the invoice reaches a threshold. Only the highest eligible reward applies.</div>
+        </div>
+        <div class="panel-head-actions"><span class="tag" id="d5-count-tag">0 Rules</span><button type="button" class="section-add-btn" data-form-open="d5">+ Add Rule</button></div>
+      </div>
+
+      <div class="mini-table-wrap">
+        <table>
+          <thead><tr><th>Minimum Invoice Amount</th><th>Reward</th><th></th></tr></thead>
+          <tbody id="d5-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="rule-entry-form rule-entry-form-wide collapsible-rule-form" id="d5-form" hidden>
+        <div class="inline-form-head"><strong id="d5-form-title">Add Invoice Reward</strong><button type="button" class="form-close" data-form-close="d5" aria-label="Close form">&times;</button></div>
+        <div class="add-row">
+          <div class="field"><label>Minimum Invoice Amount</label><input type="number" id="d5-min-amount" min="1" step="100000" placeholder="e.g. 30000000"></div>
+          <div class="field"><label>Free T-Shirt Qty</label><input type="number" id="d5-reward-qty" min="1" step="1" placeholder="e.g. 1"></div>
+          <button type="button" class="btn-add" id="d5-add">Save</button>
+        </div>
+        <div class="lifecycle-grid lifecycle-grid-compact">
+          <div class="field"><label>Start At</label><input type="date" id="d5-start-at" value="2026-09-09"></div>
+          <div class="field"><label>Expired At</label><input type="date" id="d5-expired-at" value="2026-12-31"></div>
+          <div class="field"><label>Created By</label><input type="text" id="d5-created-by" value="Rusdi"></div>
+          <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="d5-is-active" checked><span><strong>Is Active</strong><small>Invoice reward can be applied</small></span></label></div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -231,7 +294,7 @@
     input.addEventListener('blur', () => formatPercentage(input));
   });
 
-  /* ---------- DISCOUNT 1 : product & customer ---------- */
+  /* ---------- DISCOUNT 1 : product ---------- */
   const defaultMetadata = { startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' };
   function getRuleMetadata(prefix) {
     const startAt = document.getElementById(`${prefix}-start-at`).value;
@@ -248,12 +311,13 @@
     const data = { ...defaultMetadata, ...row };
     return `<div class="table-meta"><span>${data.startAt} – ${data.expiredAt}</span><span>${data.isActive ? 'Active' : 'Inactive'}</span><span>by ${data.createdBy}</span></div>`;
   }
-  const editState = { product: null, customer: null, d2: null, d3: null };
+  const editState = { product: null, d2: null, d3: null, d4: null, d5: null };
   const formConfig = {
     product: { form: 'product-form', title: 'product-form-title', submit: 'product-add', addTitle: 'Add Product Discount', editTitle: 'Edit Product Discount' },
-    customer: { form: 'customer-form', title: 'customer-form-title', submit: 'customer-add', addTitle: 'Add Customer Discount', editTitle: 'Edit Customer Discount' },
     d2: { form: 'd2-form', title: 'd2-form-title', submit: 'd2-add', addTitle: 'Add Minimum Quantity Discount', editTitle: 'Edit Minimum Quantity Discount' },
     d3: { form: 'd3-form', title: 'd3-form-title', submit: 'd3-add-category', addTitle: 'Add New Category', editTitle: 'Edit Category' },
+    d4: { form: 'd4-form', title: 'd4-form-title', submit: 'd4-add', addTitle: 'Add Payment Method Discount', editTitle: 'Edit Payment Method Discount' },
+    d5: { form: 'd5-form', title: 'd5-form-title', submit: 'd5-add', addTitle: 'Add Invoice Reward', editTitle: 'Edit Invoice Reward' },
   };
   function setRuleMetadata(prefix, row = defaultMetadata) {
     const data = { ...defaultMetadata, ...row };
@@ -265,9 +329,10 @@
   function resetPrimaryFields(type) {
     const fieldIds = {
       product: ['product-select', 'product-discount'],
-      customer: ['customer-select', 'customer-discount'],
       d2: ['d2-product-select', 'd2-min-qty', 'd2-discount'],
       d3: ['d3-category-name', 'd3-min-qty', 'd3-discount'],
+      d4: ['d4-payment-method', 'd4-discount'],
+      d5: ['d5-min-amount', 'd5-reward-qty'],
     };
     fieldIds[type].forEach(id => { document.getElementById(id).value = ''; });
   }
@@ -297,11 +362,6 @@
     { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%', startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' },
     { name: 'Krisbow Safety Helmet', discount: '8%', startAt: '2026-09-10', expiredAt: '2026-09-30', isActive: true, createdBy: 'Rusdi' },
   ];
-  const customerRows = [
-    { name: 'CV Sumber Jaya Bangunan', discount: '5%', startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
-    { name: 'Toko Berkah Teknik', discount: '7%', startAt: '2026-09-15', expiredAt: '2026-10-15', isActive: true, createdBy: 'Dina' },
-  ];
-
   function renderMiniTable(tbodyId, rows, emptyLabel, type, rerender) {
     const tbody = document.getElementById(tbodyId);
     if (rows.length === 0) {
@@ -328,24 +388,19 @@
   }
 
   function updateCountTag() {
-    document.getElementById('d1-count-tag').textContent =
-      (productRows.length + customerRows.length) + ' Rules';
+    document.getElementById('d1-count-tag').textContent = productRows.length + ' Rules';
   }
 
   function renderProductTable() {
     renderMiniTable('product-tbody', productRows, 'Belum ada discount per barang.', 'product', renderProductTable);
     updateCountTag();
   }
-  function renderCustomerTable() {
-    renderMiniTable('customer-tbody', customerRows, 'Belum ada discount per customer.', 'customer', renderCustomerTable);
-    updateCountTag();
-  }
   function editDiscount1(type, index) {
-    const row = type === 'product' ? productRows[index] : customerRows[index];
-    document.getElementById(`${type}-select`).value = row.name;
-    document.getElementById(`${type}-discount`).value = row.discount;
-    setRuleMetadata(type, row);
-    openRuleForm(type, index);
+    const row = productRows[index];
+    document.getElementById('product-select').value = row.name;
+    document.getElementById('product-discount').value = row.discount;
+    setRuleMetadata('product', row);
+    openRuleForm('product', index);
   }
 
   document.getElementById('product-add').addEventListener('click', () => {
@@ -361,21 +416,7 @@
     renderProductTable();
   });
 
-  document.getElementById('customer-add').addEventListener('click', () => {
-    const select = document.getElementById('customer-select');
-    const discountInput = document.getElementById('customer-discount');
-    const discount = formatPercentage(discountInput);
-    const metadata = getRuleMetadata('customer');
-    if (!select.value || !discount || !metadata) return;
-    const row = { name: select.value, discount, ...metadata };
-    if (editState.customer === null) customerRows.push(row);
-    else customerRows[editState.customer] = row;
-    closeRuleForm('customer');
-    renderCustomerTable();
-  });
-
   renderProductTable();
-  renderCustomerTable();
 
   /* ---------- DISCOUNT 2 : product + minimum quantity ---------- */
   const d2Rows = [
@@ -531,7 +572,142 @@
     renderDiscountCategories();
   });
 
+  /* ---------- DISCOUNT 4 : payment method ---------- */
+  const d4Rows = [
+    { name: 'Cash', discount: '2%', startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+    { name: 'Kredit', discount: '0%', startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+  ];
+
+  function renderD4Table() {
+    const tbody = document.getElementById('d4-tbody');
+    document.getElementById('d4-count-tag').textContent = d4Rows.length + ' Rules';
+
+    if (d4Rows.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="3">Belum ada discount berdasarkan payment method.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = d4Rows.map((row, index) => `
+      <tr>
+        <td class="cell-strong">${row.name}${ruleMeta(row)}</td>
+        <td>${row.discount}</td>
+        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table d4-edit" data-i="${index}">Edit</button><button type="button" class="row-remove d4-remove" data-i="${index}" aria-label="Delete">&times;</button></div></td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.d4-edit').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.i);
+        const row = d4Rows[index];
+        document.getElementById('d4-payment-method').value = row.name;
+        document.getElementById('d4-discount').value = row.discount;
+        setRuleMetadata('d4', row);
+        openRuleForm('d4', index);
+      });
+    });
+
+    tbody.querySelectorAll('.d4-remove').forEach(button => {
+      button.addEventListener('click', () => {
+        d4Rows.splice(Number(button.dataset.i), 1);
+        closeRuleForm('d4');
+        renderD4Table();
+      });
+    });
+  }
+
+  document.getElementById('d4-add').addEventListener('click', () => {
+    const paymentMethodInput = document.getElementById('d4-payment-method');
+    const discountInput = document.getElementById('d4-discount');
+    const paymentMethod = paymentMethodInput.value;
+    const discount = formatPercentage(discountInput);
+    const metadata = getRuleMetadata('d4');
+    const methodExists = d4Rows.some((row, index) =>
+      index !== editState.d4 && row.name === paymentMethod
+    );
+
+    if (!paymentMethod || !discount || !metadata || methodExists) return;
+
+    const row = { name: paymentMethod, discount, ...metadata };
+    if (editState.d4 === null) d4Rows.push(row);
+    else d4Rows[editState.d4] = row;
+
+    closeRuleForm('d4');
+    renderD4Table();
+  });
+
+  /* ---------- DISCOUNT 5 : invoice amount reward ---------- */
+  const d5Rows = [
+    { minAmount: 30000000, rewardQty: 1, startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+    { minAmount: 46000000, rewardQty: 2, startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+  ];
+
+  function formatRupiah(value) {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0,
+    }).format(value);
+  }
+
+  function renderD5Table() {
+    const tbody = document.getElementById('d5-tbody');
+    document.getElementById('d5-count-tag').textContent = d5Rows.length + ' Rules';
+
+    if (d5Rows.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="3">Belum ada reward berdasarkan invoice amount.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = d5Rows.map((row, index) => `
+      <tr>
+        <td class="cell-strong">${formatRupiah(row.minAmount)}${ruleMeta(row)}</td>
+        <td>Gratis ${row.rewardQty} kaos</td>
+        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table d5-edit" data-i="${index}">Edit</button><button type="button" class="row-remove d5-remove" data-i="${index}" aria-label="Delete">&times;</button></div></td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.d5-edit').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.i);
+        const row = d5Rows[index];
+        document.getElementById('d5-min-amount').value = row.minAmount;
+        document.getElementById('d5-reward-qty').value = row.rewardQty;
+        setRuleMetadata('d5', row);
+        openRuleForm('d5', index);
+      });
+    });
+
+    tbody.querySelectorAll('.d5-remove').forEach(button => {
+      button.addEventListener('click', () => {
+        d5Rows.splice(Number(button.dataset.i), 1);
+        closeRuleForm('d5');
+        renderD5Table();
+      });
+    });
+  }
+
+  document.getElementById('d5-add').addEventListener('click', () => {
+    const minimumAmount = Number(document.getElementById('d5-min-amount').value);
+    const rewardQuantity = Number(document.getElementById('d5-reward-qty').value);
+    const metadata = getRuleMetadata('d5');
+    const thresholdExists = d5Rows.some((row, index) =>
+      index !== editState.d5 && row.minAmount === minimumAmount
+    );
+
+    if (minimumAmount < 1 || rewardQuantity < 1 || !Number.isInteger(rewardQuantity) || !metadata || thresholdExists) return;
+
+    const row = { minAmount: minimumAmount, rewardQty: rewardQuantity, ...metadata };
+    if (editState.d5 === null) d5Rows.push(row);
+    else d5Rows[editState.d5] = row;
+
+    d5Rows.sort((first, second) => first.minAmount - second.minAmount);
+    closeRuleForm('d5');
+    renderD5Table();
+  });
+
   renderDiscountCategories();
+  renderD4Table();
+  renderD5Table();
 </script>
 </body>
 </html>
