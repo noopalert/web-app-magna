@@ -85,6 +85,12 @@
             <input class="percentage-input" type="text" inputmode="decimal" id="category-discount" placeholder="e.g. 5">
           </div>
         </div>
+        <div class="lifecycle-grid lifecycle-grid-detail">
+          <div class="field"><label>Start At</label><input type="date" id="category-start-at"></div>
+          <div class="field"><label>Expired At</label><input type="date" id="category-expired-at"></div>
+          <div class="field"><label>Created By</label><input type="text" id="category-created-by"></div>
+          <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="category-is-active"><span><strong>Is Active</strong><small>Category rule can be applied</small></span></label></div>
+        </div>
       </div>
     </section>
 
@@ -92,19 +98,20 @@
       <div class="panel-head">
         <div>
           <h3>Products in Category</h3>
-          <div class="sub">Add or remove products that contribute to this category's minimum quantity.</div>
+          <div class="sub">Check each product that belongs to this category and contributes to its minimum quantity.</div>
         </div>
         <span class="tag" id="product-count">0 Products</span>
       </div>
 
-      <div class="toolbar">
+      <div class="product-selector-toolbar">
+        <label class="checkbox-field allow-all-field"><input type="checkbox" id="allow-all-products"><span><strong>Allow All Products</strong><small>Select every product in this category</small></span></label>
         <div class="field">
           <label>Product Name</label>
           <input type="text" id="new-product" placeholder="Search or enter product name">
         </div>
-        <button class="btn btn-primary" id="add-product">+ Add Product</button>
+        <button class="btn btn-primary" id="add-product">+ Add Product Option</button>
       </div>
-      <div class="product-list" id="product-list"></div>
+      <div class="product-checklist" id="product-list"></div>
     </section>
 
     <div class="btn-row">
@@ -123,9 +130,9 @@
   document.title = 'Magna Hardware — ' + category + ' Products';
 
   const categorySettings = {
-    'Mesin': { minQty: 5, discount: '5%' },
-    'Pneumatics': { minQty: 2, discount: '3%' },
-    'Mata Planer': { minQty: 1, discount: '2%' },
+    'Mesin': { minQty: 5, discount: '5%', selected: 4 },
+    'Pneumatics': { minQty: 2, discount: '3%', selected: 3 },
+    'Mata Planer': { minQty: 1, discount: '2%', selected: 1 },
   };
 
   const productSeed = {
@@ -145,20 +152,30 @@
     ],
   };
 
-  const storedSetting = categorySettings[category] || { minQty: 1, discount: '' };
+  const storedSetting = categorySettings[category] || { minQty: 1, discount: '', selected: 0 };
   const setting = {
     minQty: params.get('minQty') || storedSetting.minQty,
     discount: params.get('discount') || storedSetting.discount,
   };
   const products = [...(productSeed[category] || [])];
+  const selectedProducts = new Set(products.slice(0, storedSetting.selected));
   const categoryNameInput = document.getElementById('category-name');
   const minimumQuantityInput = document.getElementById('category-min-qty');
   const discountInput = document.getElementById('category-discount');
   const productList = document.getElementById('product-list');
+  const allowAllProductsInput = document.getElementById('allow-all-products');
+  const startAtInput = document.getElementById('category-start-at');
+  const expiredAtInput = document.getElementById('category-expired-at');
+  const isActiveInput = document.getElementById('category-is-active');
+  const createdByInput = document.getElementById('category-created-by');
 
   categoryNameInput.value = category;
   minimumQuantityInput.value = setting.minQty;
   discountInput.value = setting.discount;
+  startAtInput.value = params.get('startAt') || '2026-01-01';
+  expiredAtInput.value = params.get('expiredAt') || '2026-12-31';
+  isActiveInput.checked = params.get('isActive') !== 'false';
+  createdByInput.value = params.get('createdBy') || 'Rusdi';
 
   function formatPercentage(input) {
     const rawValue = input.value.replace('%', '').replace(',', '.').trim();
@@ -178,36 +195,46 @@
   discountInput.addEventListener('blur', () => formatPercentage(discountInput));
 
   function renderProducts() {
-    document.getElementById('product-count').textContent = products.length + ' Products';
+    document.getElementById('product-count').textContent = selectedProducts.size + ' Selected';
+    allowAllProductsInput.checked = products.length > 0 && selectedProducts.size === products.length;
+    allowAllProductsInput.indeterminate = selectedProducts.size > 0 && selectedProducts.size < products.length;
     productList.innerHTML = products.length ? products.map((product, index) => `
-      <div class="product-list-item">
+      <label class="product-check-item">
+        <input type="checkbox" data-i="${index}" ${selectedProducts.has(product) ? 'checked' : ''}>
         <span class="condition-index">${String(index + 1).padStart(2, '0')}</span>
         <span class="product-name">${product}</span>
-        <button class="row-remove" data-i="${index}" title="Remove product">&times;</button>
-      </div>
+      </label>
     `).join('') : '<div class="notice">Belum ada product dalam category ini.</div>';
 
-    productList.querySelectorAll('.row-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        products.splice(Number(btn.dataset.i), 1);
+    productList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        const product = products[Number(checkbox.dataset.i)];
+        checkbox.checked ? selectedProducts.add(product) : selectedProducts.delete(product);
         renderProducts();
       });
     });
   }
+
+  allowAllProductsInput.addEventListener('change', () => {
+    selectedProducts.clear();
+    if (allowAllProductsInput.checked) products.forEach(product => selectedProducts.add(product));
+    renderProducts();
+  });
 
   document.getElementById('add-product').addEventListener('click', () => {
     const input = document.getElementById('new-product');
     const productName = input.value.trim();
     if (!productName || products.some(product => product.toLowerCase() === productName.toLowerCase())) return;
     products.push(productName);
+    selectedProducts.add(productName);
     input.value = '';
     renderProducts();
   });
 
   document.getElementById('save-btn').addEventListener('click', () => {
     const discount = formatPercentage(discountInput);
-    if (!categoryNameInput.value.trim() || Number(minimumQuantityInput.value) < 1 || !discount) return;
-    alert(`Category ${categoryNameInput.value.trim()} tersimpan dengan ${products.length} product.`);
+    if (!categoryNameInput.value.trim() || Number(minimumQuantityInput.value) < 1 || !discount || !startAtInput.value || !expiredAtInput.value) return;
+    alert(`Category ${categoryNameInput.value.trim()} tersimpan dengan ${selectedProducts.size} product terpilih.`);
   });
 
   renderProducts();

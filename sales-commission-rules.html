@@ -38,6 +38,16 @@
       <span class="tag">January 2026</span>
     </div>
 
+    <section class="panel commission-rule-editor">
+      <div class="panel-head"><div><h3 id="rule-form-title">Add Commission Level</h3><div class="sub">Create or update a commission level in the selected scheme.</div></div><span class="tag">Full CRUD</span></div>
+      <div class="commission-rule-form">
+        <div class="field"><label>Scheme</label><select id="new-scheme"><option value="regular">Regular</option><option value="sp">Special Product</option></select></div>
+        <div class="field"><label>Target / Achievement</label><input id="new-target" type="text" placeholder="e.g. 15,000,000,000"></div>
+        <div class="field"><label>Commission</label><input id="new-commission" type="text" placeholder="e.g. 20,000,000"></div>
+        <div class="commission-form-actions"><button class="btn btn-primary" id="add-rule">Create Rule</button><button class="btn btn-ghost" id="cancel-edit" hidden>Cancel Edit</button></div>
+      </div>
+    </section>
+
     <section class="section-grid">
       <div class="panel">
         <div class="panel-head"><div><h3>Regular Commission</h3><div class="sub">Group achievement and commission by level.</div></div><span class="tag">11 Levels</span></div>
@@ -103,15 +113,6 @@
       </ol>
     </section>
 
-    <section class="panel" style="margin-top:22px;">
-      <div class="panel-head"><div><h3>Add Commission Level</h3><div class="sub">Add a new level to the selected commission scheme.</div></div></div>
-      <div class="add-row add-row-rule">
-        <div class="field"><label>Scheme</label><select id="new-scheme"><option value="regular">Regular</option><option value="sp">Special Product</option></select></div>
-        <div class="field"><label>Target</label><input id="new-target" type="text" placeholder="e.g. 15,000,000,000"></div>
-        <div class="field"><label>Commission</label><input id="new-commission" type="text" placeholder="e.g. 20,000,000"></div>
-        <button class="btn-add" id="add-rule" title="Add commission level">+</button>
-      </div>
-    </section>
   </main>
 </div>
 
@@ -141,9 +142,43 @@
   ];
   const activationRules = [['0','3','Rp 0'],['1','6','Rp 600,000'],['2','8','Rp 800,000'],['3','10','Rp 1,000,000'],['4','12','Rp 1,200,000'],['5','13','Rp 2,000,000'],['6','21','Rp 3,000,000']];
 
-  function renderCommissionRules(bodyId, rows) {
-    document.getElementById(bodyId).innerHTML = rows.map((row, index) => `<tr><td><span class="rank-badge">${row[0]}</span></td><td>${row[1]}</td><td class="cell-strong">${row[2]}</td><td><button class="row-remove" data-i="${index}">&times;</button></td></tr>`).join('');
-    document.getElementById(bodyId).querySelectorAll('.row-remove').forEach(button => button.addEventListener('click', () => { rows.splice(Number(button.dataset.i), 1); renderCommissionRules(bodyId, rows); }));
+  let editingRule = null;
+
+  function renderCommissionRules(bodyId, rows, scheme) {
+    const body = document.getElementById(bodyId);
+    body.innerHTML = rows.map((row, index) => `<tr><td><span class="rank-badge">${row[0]}</span></td><td>${row[1]}</td><td class="cell-strong">${row[2]}</td><td><div class="row-actions"><button class="btn-table edit-rule" data-i="${index}" data-scheme="${scheme}">Edit</button><button class="row-remove" data-i="${index}" title="Delete rule">&times;</button></div></td></tr>`).join('');
+    body.querySelectorAll('.row-remove').forEach(button => button.addEventListener('click', () => {
+      rows.splice(Number(button.dataset.i), 1);
+      resetRuleForm();
+      renderAllCommissionRules();
+    }));
+    body.querySelectorAll('.edit-rule').forEach(button => button.addEventListener('click', () => {
+      const index = Number(button.dataset.i);
+      const source = button.dataset.scheme === 'regular' ? regularRules : spRules;
+      editingRule = { scheme: button.dataset.scheme, index };
+      document.getElementById('new-scheme').value = editingRule.scheme;
+      document.getElementById('new-target').value = source[index][1];
+      document.getElementById('new-commission').value = source[index][2];
+      document.getElementById('rule-form-title').textContent = `Edit ${editingRule.scheme === 'regular' ? 'Regular' : 'Special Product'} Level ${source[index][0]}`;
+      document.getElementById('add-rule').textContent = 'Update Rule';
+      document.getElementById('cancel-edit').hidden = false;
+      document.querySelector('.commission-rule-editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('new-target').focus();
+    }));
+  }
+
+  function renderAllCommissionRules() {
+    renderCommissionRules('regular-rule-body', regularRules, 'regular');
+    renderCommissionRules('sp-rule-body', spRules, 'sp');
+  }
+
+  function resetRuleForm() {
+    editingRule = null;
+    document.getElementById('new-target').value = '';
+    document.getElementById('new-commission').value = '';
+    document.getElementById('rule-form-title').textContent = 'Add Commission Level';
+    document.getElementById('add-rule').textContent = 'Create Rule';
+    document.getElementById('cancel-edit').hidden = true;
   }
 
   document.getElementById('area-rule-body').innerHTML = areaRules.map(row => `<tr>${row.map((cell, index) => `<td class="${index === 0 ? 'cell-strong' : ''}">${cell}</td>`).join('')}</tr>`).join('');
@@ -154,14 +189,25 @@
     const target = document.getElementById('new-target');
     const commission = document.getElementById('new-commission');
     if (!target.value.trim() || !commission.value.trim()) return;
+    const formattedTarget = /\bRp\b/i.test(target.value) ? target.value.trim() : 'Rp ' + target.value.trim();
+    const formattedCommission = /\bRp\b/i.test(commission.value) ? commission.value.trim() : 'Rp ' + commission.value.trim();
     const rules = scheme === 'regular' ? regularRules : spRules;
-    rules.push([String(rules.length), 'Rp ' + target.value.trim(), 'Rp ' + commission.value.trim()]);
-    renderCommissionRules(scheme === 'regular' ? 'regular-rule-body' : 'sp-rule-body', rules);
-    target.value = ''; commission.value = '';
+    if (editingRule) {
+      const sourceRules = editingRule.scheme === 'regular' ? regularRules : spRules;
+      const level = sourceRules[editingRule.index][0];
+      sourceRules.splice(editingRule.index, 1);
+      rules.push([level, formattedTarget, formattedCommission]);
+    } else {
+      const nextLevel = Math.max(-1, ...rules.map(row => Number(row[0]) || 0)) + 1;
+      rules.push([String(nextLevel), formattedTarget, formattedCommission]);
+    }
+    resetRuleForm();
+    renderAllCommissionRules();
   });
 
-  renderCommissionRules('regular-rule-body', regularRules);
-  renderCommissionRules('sp-rule-body', spRules);
+  document.getElementById('cancel-edit').addEventListener('click', resetRuleForm);
+
+  renderAllCommissionRules();
 </script>
 </body>
 </html>

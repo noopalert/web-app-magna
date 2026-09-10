@@ -57,6 +57,8 @@
       </div>
     </div>
 
+    <div class="notice priority-notice"><strong>Discount priority:</strong> product discount is evaluated first. Customer discount is used only when no matching product discount exists.</div>
+
     <!-- ================= DISCOUNT SETTING 1 ================= -->
     <section class="panel">
       <div class="panel-head">
@@ -71,59 +73,57 @@
 
         <!-- Per Product -->
         <div class="panel" style="background:transparent;border:none;padding:0;">
-          <div class="panel-head" style="margin-bottom:12px;"><h3 style="font-size:13.5px;">Discount by Product</h3></div>
+          <div class="panel-head" style="margin-bottom:12px;">
+            <h3 style="font-size:13.5px;">Discount by Product</h3>
+            <div class="panel-head-actions"><span class="tag">Priority 1</span><button type="button" class="section-add-btn" data-form-open="product">+ Add Rule</button></div>
+          </div>
           <div class="mini-table-wrap">
             <table>
               <thead><tr><th>Nama Barang</th><th>Discount</th><th></th></tr></thead>
               <tbody id="product-tbody"></tbody>
             </table>
           </div>
-          <div class="add-row">
-            <div class="field">
-              <label>Nama Barang</label>
-              <select id="product-select">
-                <option value="">Pilih barang</option>
-                <option>Bosch GSB 13 RE Impact Drill</option>
-                <option>Tekiro Combination Wrench Set</option>
-                <option>Krisbow Safety Helmet</option>
-                <option>Stanley Measuring Tape 5M</option>
-                <option>Kenmaster Hex Bolt M8 (Box)</option>
-              </select>
+          <div class="rule-entry-form collapsible-rule-form" id="product-form" hidden>
+            <div class="inline-form-head"><strong id="product-form-title">Add Product Discount</strong><button type="button" class="form-close" data-form-close="product" aria-label="Close form">&times;</button></div>
+            <div class="add-row">
+              <div class="field"><label>Nama Barang</label><select id="product-select"><option value="">Pilih barang</option><option>Bosch GSB 13 RE Impact Drill</option><option>Tekiro Combination Wrench Set</option><option>Krisbow Safety Helmet</option><option>Stanley Measuring Tape 5M</option><option>Kenmaster Hex Bolt M8 (Box)</option></select></div>
+              <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="product-discount" placeholder="e.g. 10"></div>
+              <button type="button" class="btn-add" id="product-add">Save</button>
             </div>
-            <div class="field">
-              <label>Discount</label>
-              <input class="percentage-input" type="text" inputmode="decimal" id="product-discount" placeholder="e.g. 10">
+            <div class="lifecycle-grid lifecycle-grid-compact">
+              <div class="field"><label>Start At</label><input type="date" id="product-start-at" value="2026-09-09"></div>
+              <div class="field"><label>Expired At</label><input type="date" id="product-expired-at" value="2026-10-09"></div>
+              <div class="field"><label>Created By</label><input type="text" id="product-created-by" value="Rusdi"></div>
+              <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="product-is-active" checked><span><strong>Is Active</strong><small>Product rule can be applied</small></span></label></div>
             </div>
-            <button class="btn-add" id="product-add" title="Tambah discount barang">+</button>
           </div>
         </div>
 
         <!-- Per Customer -->
         <div class="panel" style="background:transparent;border:none;padding:0;">
-          <div class="panel-head" style="margin-bottom:12px;"><h3 style="font-size:13.5px;">Discount by Customer</h3></div>
+          <div class="panel-head" style="margin-bottom:12px;">
+            <h3 style="font-size:13.5px;">Discount by Customer</h3>
+            <div class="panel-head-actions"><span class="tag">Priority 2</span><button type="button" class="section-add-btn" data-form-open="customer">+ Add Rule</button></div>
+          </div>
           <div class="mini-table-wrap">
             <table>
               <thead><tr><th>Nama Customer</th><th>Discount</th><th></th></tr></thead>
               <tbody id="customer-tbody"></tbody>
             </table>
           </div>
-          <div class="add-row">
-            <div class="field">
-              <label>Nama Customer</label>
-              <select id="customer-select">
-                <option value="">Pilih customer</option>
-                <option>CV Sumber Jaya Bangunan</option>
-                <option>Toko Berkah Teknik</option>
-                <option>PT Cipta Konstruksi Utama</option>
-                <option>UD Mitra Perkakas</option>
-                <option>Toko Sinar Abadi</option>
-              </select>
+          <div class="rule-entry-form collapsible-rule-form" id="customer-form" hidden>
+            <div class="inline-form-head"><strong id="customer-form-title">Add Customer Discount</strong><button type="button" class="form-close" data-form-close="customer" aria-label="Close form">&times;</button></div>
+            <div class="add-row">
+              <div class="field"><label>Nama Customer</label><select id="customer-select"><option value="">Pilih customer</option><option>CV Sumber Jaya Bangunan</option><option>Toko Berkah Teknik</option><option>PT Cipta Konstruksi Utama</option><option>UD Mitra Perkakas</option><option>Toko Sinar Abadi</option></select></div>
+              <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="customer-discount" placeholder="e.g. 5"></div>
+              <button type="button" class="btn-add" id="customer-add">Save</button>
             </div>
-            <div class="field">
-              <label>Discount</label>
-              <input class="percentage-input" type="text" inputmode="decimal" id="customer-discount" placeholder="e.g. 5">
+            <div class="lifecycle-grid lifecycle-grid-compact">
+              <div class="field"><label>Start At</label><input type="date" id="customer-start-at" value="2026-09-09"></div>
+              <div class="field"><label>Expired At</label><input type="date" id="customer-expired-at" value="2026-10-09"></div>
+              <div class="field"><label>Created By</label><input type="text" id="customer-created-by" value="Rusdi"></div>
+              <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="customer-is-active" checked><span><strong>Is Active</strong><small>Customer rule can be applied</small></span></label></div>
             </div>
-            <button class="btn-add" id="customer-add" title="Tambah discount customer">+</button>
           </div>
         </div>
 
@@ -137,7 +137,7 @@
           <h3>Discount Setting 2 — Product Minimum Quantity</h3>
           <div class="sub">Set an additional discount per product when the minimum quantity is reached.</div>
         </div>
-        <span class="tag" id="d2-count-tag">0 Rules</span>
+        <div class="panel-head-actions"><span class="tag" id="d2-count-tag">0 Rules</span><button type="button" class="section-add-btn" data-form-open="d2">+ Add Rule</button></div>
       </div>
 
       <div class="mini-table-wrap">
@@ -146,27 +146,20 @@
           <tbody id="d2-tbody"></tbody>
         </table>
       </div>
-      <div class="add-row add-row-quantity">
-        <div class="field">
-          <label>Nama Barang</label>
-          <select id="d2-product-select">
-            <option value="">Pilih barang</option>
-            <option>Bosch GSB 13 RE Impact Drill</option>
-            <option>Tekiro Combination Wrench Set</option>
-            <option>Krisbow Safety Helmet</option>
-            <option>Stanley Measuring Tape 5M</option>
-            <option>Kenmaster Hex Bolt M8 (Box)</option>
-          </select>
+      <div class="rule-entry-form rule-entry-form-wide collapsible-rule-form" id="d2-form" hidden>
+        <div class="inline-form-head"><strong id="d2-form-title">Add Minimum Quantity Discount</strong><button type="button" class="form-close" data-form-close="d2" aria-label="Close form">&times;</button></div>
+        <div class="add-row add-row-quantity">
+          <div class="field"><label>Nama Barang</label><select id="d2-product-select"><option value="">Pilih barang</option><option>Bosch GSB 13 RE Impact Drill</option><option>Tekiro Combination Wrench Set</option><option>Krisbow Safety Helmet</option><option>Stanley Measuring Tape 5M</option><option>Kenmaster Hex Bolt M8 (Box)</option></select></div>
+          <div class="field"><label>Minimum Qty</label><input type="number" id="d2-min-qty" min="1" placeholder="e.g. 3"></div>
+          <div class="field"><label>Discount</label><input class="percentage-input" type="text" inputmode="decimal" id="d2-discount" placeholder="e.g. 2"></div>
+          <button type="button" class="btn-add" id="d2-add">Save</button>
         </div>
-        <div class="field">
-          <label>Minimum Qty</label>
-          <input type="number" id="d2-min-qty" min="1" placeholder="e.g. 3">
+        <div class="lifecycle-grid lifecycle-grid-compact">
+          <div class="field"><label>Start At</label><input type="date" id="d2-start-at" value="2026-09-09"></div>
+          <div class="field"><label>Expired At</label><input type="date" id="d2-expired-at" value="2026-10-09"></div>
+          <div class="field"><label>Created By</label><input type="text" id="d2-created-by" value="Rusdi"></div>
+          <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="d2-is-active" checked><span><strong>Is Active</strong><small>Quantity rule can be applied</small></span></label></div>
         </div>
-        <div class="field">
-          <label>Discount</label>
-          <input class="percentage-input" type="text" inputmode="decimal" id="d2-discount" placeholder="e.g. 2">
-        </div>
-        <button class="btn-add" id="d2-add" title="Tambah discount minimum quantity">+</button>
       </div>
     </section>
 
@@ -177,11 +170,11 @@
           <h3>Discount Setting 3 — Product Categories</h3>
           <div class="sub">Set category-level discounts and manage which products belong to each category.</div>
         </div>
-        <span class="tag" id="d3-count-tag">0 Categories</span>
+        <div class="panel-head-actions"><span class="tag" id="d3-count-tag">0 Categories</span><button type="button" class="section-add-btn" data-form-open="d3">+ Add Category</button></div>
       </div>
 
-      <div class="form-card category-create-card">
-        <div class="rule-card-title">Add New Category</div>
+      <div class="form-card category-create-card collapsible-rule-form" id="d3-form" hidden>
+        <div class="inline-form-head"><strong id="d3-form-title">Add New Category</strong><button type="button" class="form-close" data-form-close="d3" aria-label="Close form">&times;</button></div>
         <div class="add-row add-row-category">
           <div class="field">
             <label>Category Name</label>
@@ -195,7 +188,13 @@
             <label>Discount</label>
             <input class="percentage-input" type="text" inputmode="decimal" id="d3-discount" placeholder="e.g. 5">
           </div>
-          <button class="btn-add" id="d3-add-category" title="Add new discount category">+</button>
+          <button type="button" class="btn-add" id="d3-add-category">Save</button>
+        </div>
+        <div class="lifecycle-grid lifecycle-grid-compact">
+          <div class="field"><label>Start At</label><input type="date" id="d3-start-at" value="2026-09-09"></div>
+          <div class="field"><label>Expired At</label><input type="date" id="d3-expired-at" value="2026-10-09"></div>
+          <div class="field"><label>Created By</label><input type="text" id="d3-created-by" value="Rusdi"></div>
+          <div class="field status-field"><label>Status</label><label class="checkbox-field"><input type="checkbox" id="d3-is-active" checked><span><strong>Is Active</strong><small>Category rule can be applied</small></span></label></div>
         </div>
       </div>
 
@@ -233,16 +232,77 @@
   });
 
   /* ---------- DISCOUNT 1 : product & customer ---------- */
+  const defaultMetadata = { startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' };
+  function getRuleMetadata(prefix) {
+    const startAt = document.getElementById(`${prefix}-start-at`).value;
+    const expiredAt = document.getElementById(`${prefix}-expired-at`).value;
+    if (!startAt || !expiredAt || startAt > expiredAt) return null;
+    return {
+      startAt,
+      expiredAt,
+      isActive: document.getElementById(`${prefix}-is-active`).checked,
+      createdBy: document.getElementById(`${prefix}-created-by`).value.trim() || 'Unknown',
+    };
+  }
+  function ruleMeta(row) {
+    const data = { ...defaultMetadata, ...row };
+    return `<div class="table-meta"><span>${data.startAt} – ${data.expiredAt}</span><span>${data.isActive ? 'Active' : 'Inactive'}</span><span>by ${data.createdBy}</span></div>`;
+  }
+  const editState = { product: null, customer: null, d2: null, d3: null };
+  const formConfig = {
+    product: { form: 'product-form', title: 'product-form-title', submit: 'product-add', addTitle: 'Add Product Discount', editTitle: 'Edit Product Discount' },
+    customer: { form: 'customer-form', title: 'customer-form-title', submit: 'customer-add', addTitle: 'Add Customer Discount', editTitle: 'Edit Customer Discount' },
+    d2: { form: 'd2-form', title: 'd2-form-title', submit: 'd2-add', addTitle: 'Add Minimum Quantity Discount', editTitle: 'Edit Minimum Quantity Discount' },
+    d3: { form: 'd3-form', title: 'd3-form-title', submit: 'd3-add-category', addTitle: 'Add New Category', editTitle: 'Edit Category' },
+  };
+  function setRuleMetadata(prefix, row = defaultMetadata) {
+    const data = { ...defaultMetadata, ...row };
+    document.getElementById(`${prefix}-start-at`).value = data.startAt;
+    document.getElementById(`${prefix}-expired-at`).value = data.expiredAt;
+    document.getElementById(`${prefix}-is-active`).checked = data.isActive;
+    document.getElementById(`${prefix}-created-by`).value = data.createdBy;
+  }
+  function resetPrimaryFields(type) {
+    const fieldIds = {
+      product: ['product-select', 'product-discount'],
+      customer: ['customer-select', 'customer-discount'],
+      d2: ['d2-product-select', 'd2-min-qty', 'd2-discount'],
+      d3: ['d3-category-name', 'd3-min-qty', 'd3-discount'],
+    };
+    fieldIds[type].forEach(id => { document.getElementById(id).value = ''; });
+  }
+  function openRuleForm(type, index = null) {
+    const config = formConfig[type];
+    editState[type] = index;
+    document.getElementById(config.title).textContent = index === null ? config.addTitle : config.editTitle;
+    document.getElementById(config.submit).textContent = index === null ? 'Save' : 'Update';
+    const form = document.getElementById(config.form);
+    form.hidden = false;
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function closeRuleForm(type) {
+    editState[type] = null;
+    resetPrimaryFields(type);
+    setRuleMetadata(type);
+    document.getElementById(formConfig[type].form).hidden = true;
+  }
+  document.querySelectorAll('[data-form-open]').forEach(button => button.addEventListener('click', () => {
+    const type = button.dataset.formOpen;
+    resetPrimaryFields(type);
+    setRuleMetadata(type);
+    openRuleForm(type);
+  }));
+  document.querySelectorAll('[data-form-close]').forEach(button => button.addEventListener('click', () => closeRuleForm(button.dataset.formClose)));
   const productRows = [
-    { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%' },
-    { name: 'Krisbow Safety Helmet', discount: '8%' },
+    { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%', startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' },
+    { name: 'Krisbow Safety Helmet', discount: '8%', startAt: '2026-09-10', expiredAt: '2026-09-30', isActive: true, createdBy: 'Rusdi' },
   ];
   const customerRows = [
-    { name: 'CV Sumber Jaya Bangunan', discount: '5%' },
-    { name: 'Toko Berkah Teknik', discount: '7%' },
+    { name: 'CV Sumber Jaya Bangunan', discount: '5%', startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+    { name: 'Toko Berkah Teknik', discount: '7%', startAt: '2026-09-15', expiredAt: '2026-10-15', isActive: true, createdBy: 'Dina' },
   ];
 
-  function renderMiniTable(tbodyId, rows, emptyLabel, onRemove) {
+  function renderMiniTable(tbodyId, rows, emptyLabel, type, rerender) {
     const tbody = document.getElementById(tbodyId);
     if (rows.length === 0) {
       tbody.innerHTML = `<tr class="empty-row"><td colspan="3">${emptyLabel}</td></tr>`;
@@ -250,15 +310,19 @@
     }
     tbody.innerHTML = rows.map((r, i) => `
       <tr>
-        <td class="cell-strong">${r.name}</td>
+        <td class="cell-strong">${r.name}${ruleMeta(r)}</td>
         <td>${r.discount}</td>
-        <td style="width:36px;"><button class="row-remove" data-i="${i}">&times;</button></td>
+        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table row-edit" data-i="${i}">Edit</button><button type="button" class="row-remove" data-i="${i}" aria-label="Delete">&times;</button></div></td>
       </tr>
     `).join('');
+    tbody.querySelectorAll('.row-edit').forEach(btn => {
+      btn.addEventListener('click', () => editDiscount1(type, Number(btn.dataset.i)));
+    });
     tbody.querySelectorAll('.row-remove').forEach(btn => {
       btn.addEventListener('click', () => {
         rows.splice(Number(btn.dataset.i), 1);
-        onRemove();
+        closeRuleForm(type);
+        rerender();
       });
     });
   }
@@ -269,26 +333,31 @@
   }
 
   function renderProductTable() {
-    renderMiniTable('product-tbody', productRows, 'Belum ada discount per barang.', () => {
-      renderProductTable(); updateCountTag();
-    });
+    renderMiniTable('product-tbody', productRows, 'Belum ada discount per barang.', 'product', renderProductTable);
     updateCountTag();
   }
   function renderCustomerTable() {
-    renderMiniTable('customer-tbody', customerRows, 'Belum ada discount per customer.', () => {
-      renderCustomerTable(); updateCountTag();
-    });
+    renderMiniTable('customer-tbody', customerRows, 'Belum ada discount per customer.', 'customer', renderCustomerTable);
     updateCountTag();
+  }
+  function editDiscount1(type, index) {
+    const row = type === 'product' ? productRows[index] : customerRows[index];
+    document.getElementById(`${type}-select`).value = row.name;
+    document.getElementById(`${type}-discount`).value = row.discount;
+    setRuleMetadata(type, row);
+    openRuleForm(type, index);
   }
 
   document.getElementById('product-add').addEventListener('click', () => {
     const select = document.getElementById('product-select');
     const discountInput = document.getElementById('product-discount');
     const discount = formatPercentage(discountInput);
-    if (!select.value || !discount) return;
-    productRows.push({ name: select.value, discount });
-    select.value = '';
-    discountInput.value = '';
+    const metadata = getRuleMetadata('product');
+    if (!select.value || !discount || !metadata) return;
+    const row = { name: select.value, discount, ...metadata };
+    if (editState.product === null) productRows.push(row);
+    else productRows[editState.product] = row;
+    closeRuleForm('product');
     renderProductTable();
   });
 
@@ -296,10 +365,12 @@
     const select = document.getElementById('customer-select');
     const discountInput = document.getElementById('customer-discount');
     const discount = formatPercentage(discountInput);
-    if (!select.value || !discount) return;
-    customerRows.push({ name: select.value, discount });
-    select.value = '';
-    discountInput.value = '';
+    const metadata = getRuleMetadata('customer');
+    if (!select.value || !discount || !metadata) return;
+    const row = { name: select.value, discount, ...metadata };
+    if (editState.customer === null) customerRows.push(row);
+    else customerRows[editState.customer] = row;
+    closeRuleForm('customer');
     renderCustomerTable();
   });
 
@@ -308,7 +379,7 @@
 
   /* ---------- DISCOUNT 2 : product + minimum quantity ---------- */
   const d2Rows = [
-    { name: 'Bosch GSB 13 RE Impact Drill', minQty: 3, discount: '2%' },
+    { name: 'Bosch GSB 13 RE Impact Drill', minQty: 3, discount: '2%', startAt: '2026-09-12', expiredAt: '2026-10-31', isActive: true, createdBy: 'Rusdi' },
   ];
 
   function renderD2Table() {
@@ -322,16 +393,28 @@
 
     tbody.innerHTML = d2Rows.map((row, index) => `
       <tr>
-        <td class="cell-strong">${row.name}</td>
+        <td class="cell-strong">${row.name}${ruleMeta(row)}</td>
         <td>${row.minQty} unit</td>
         <td>${row.discount}</td>
-        <td style="width:36px;"><button class="row-remove" data-i="${index}">&times;</button></td>
+        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table row-edit" data-i="${index}">Edit</button><button type="button" class="row-remove" data-i="${index}" aria-label="Delete">&times;</button></div></td>
       </tr>
     `).join('');
 
+    tbody.querySelectorAll('.row-edit').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.i);
+        const row = d2Rows[index];
+        document.getElementById('d2-product-select').value = row.name;
+        document.getElementById('d2-min-qty').value = row.minQty;
+        document.getElementById('d2-discount').value = row.discount;
+        setRuleMetadata('d2', row);
+        openRuleForm('d2', index);
+      });
+    });
     tbody.querySelectorAll('.row-remove').forEach(button => {
       button.addEventListener('click', () => {
         d2Rows.splice(Number(button.dataset.i), 1);
+        closeRuleForm('d2');
         renderD2Table();
       });
     });
@@ -343,12 +426,13 @@
     const discount = document.getElementById('d2-discount');
 
     const formattedDiscount = formatPercentage(discount);
-    if (!product.value || !minQty.value || Number(minQty.value) < 1 || !formattedDiscount) return;
+    const metadata = getRuleMetadata('d2');
+    if (!product.value || !minQty.value || Number(minQty.value) < 1 || !formattedDiscount || !metadata) return;
 
-    d2Rows.push({ name: product.value, minQty: Number(minQty.value), discount: formattedDiscount });
-    product.value = '';
-    minQty.value = '';
-    discount.value = '';
+    const row = { name: product.value, minQty: Number(minQty.value), discount: formattedDiscount, ...metadata };
+    if (editState.d2 === null) d2Rows.push(row);
+    else d2Rows[editState.d2] = row;
+    closeRuleForm('d2');
     renderD2Table();
   });
 
@@ -356,16 +440,16 @@
 
   /* ---------- DISCOUNT 3 : category -> products ---------- */
   const discountCategories = [
-    { id: 1, category: 'Mesin', minQty: 5, discount: '5%', products: 4 },
-    { id: 2, category: 'Pneumatics', minQty: 2, discount: '3%', products: 3 },
-    { id: 3, category: 'Mata Planer', minQty: 1, discount: '2%', products: 1 },
+    { id: 1, category: 'Mesin', minQty: 5, discount: '5%', products: 4, startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' },
+    { id: 2, category: 'Pneumatics', minQty: 2, discount: '3%', products: 3, startAt: '2026-09-10', expiredAt: '2026-11-30', isActive: true, createdBy: 'Rusdi' },
+    { id: 3, category: 'Mata Planer', minQty: 1, discount: '2%', products: 1, startAt: '2026-10-01', expiredAt: '2026-12-31', isActive: false, createdBy: 'Dina' },
   ];
 
   const categoryTierList = document.getElementById('category-tier-list');
   function renderDiscountCategories() {
     document.getElementById('d3-count-tag').textContent = discountCategories.length + ' Categories';
-    categoryTierList.innerHTML = discountCategories.length ? discountCategories.map(item => `
-      <button class="condition-row" data-id="${item.id}" data-category="${item.category}" data-min-qty="${item.minQty}" data-discount="${item.discount}">
+    categoryTierList.innerHTML = discountCategories.length ? discountCategories.map((item, index) => `
+      <div class="condition-row" role="link" tabindex="0" data-id="${item.id}" data-category="${item.category}" data-min-qty="${item.minQty}" data-discount="${item.discount}" data-start-at="${item.startAt}" data-expired-at="${item.expiredAt}" data-is-active="${item.isActive}" data-created-by="${item.createdBy}">
         <div class="condition-index">${String(item.id).padStart(2, '0')}</div>
         <div class="condition-body">
           <div class="c-name">Category ${item.id} — ${item.category}</div>
@@ -373,23 +457,50 @@
             <span class="meta-chip">${item.products} products</span>
             <span class="meta-chip">Min. ${item.minQty} qty</span>
             <span class="meta-chip">${item.discount} discount</span>
+            <span class="meta-chip">${item.isActive ? 'Active' : 'Inactive'}</span>
+            <span class="meta-chip">${item.startAt} – ${item.expiredAt}</span>
+            <span class="meta-chip">by ${item.createdBy}</span>
           </div>
         </div>
+        <div class="row-actions"><button type="button" class="btn-table edit-category" data-i="${index}">Edit</button><button type="button" class="row-remove delete-category" data-i="${index}" aria-label="Delete">&times;</button></div>
         <div class="condition-chevron">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
         </div>
-      </button>
+      </div>
     `).join('') : '<div class="notice">Belum ada Discount 3 category.</div>';
 
     categoryTierList.querySelectorAll('.condition-row').forEach(row => {
-      row.addEventListener('click', () => {
+      row.addEventListener('click', (event) => {
+        if (event.target.closest('.row-actions')) return;
         const query = new URLSearchParams({
           id: row.dataset.id,
           category: row.dataset.category,
           minQty: row.dataset.minQty,
           discount: row.dataset.discount,
+          startAt: row.dataset.startAt,
+          expiredAt: row.dataset.expiredAt,
+          isActive: row.dataset.isActive,
+          createdBy: row.dataset.createdBy,
         });
         window.location.href = `discount-condition.html?${query.toString()}`;
+      });
+    });
+    categoryTierList.querySelectorAll('.edit-category').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.i);
+        const row = discountCategories[index];
+        document.getElementById('d3-category-name').value = row.category;
+        document.getElementById('d3-min-qty').value = row.minQty;
+        document.getElementById('d3-discount').value = row.discount;
+        setRuleMetadata('d3', row);
+        openRuleForm('d3', index);
+      });
+    });
+    categoryTierList.querySelectorAll('.delete-category').forEach(button => {
+      button.addEventListener('click', () => {
+        discountCategories.splice(Number(button.dataset.i), 1);
+        closeRuleForm('d3');
+        renderDiscountCategories();
       });
     });
   }
@@ -401,28 +512,22 @@
     const categoryName = categoryNameInput.value.trim();
     const minimumQuantity = Number(minimumQuantityInput.value);
     const discount = formatPercentage(discountInput);
+    const metadata = getRuleMetadata('d3');
 
-    const categoryExists = discountCategories.some(item =>
-      item.category.toLowerCase() === categoryName.toLowerCase()
+    const categoryExists = discountCategories.some((item, index) =>
+      index !== editState.d3 && item.category.toLowerCase() === categoryName.toLowerCase()
     );
 
-    if (!categoryName || minimumQuantity < 1 || !discount || categoryExists) return;
+    if (!categoryName || minimumQuantity < 1 || !discount || !metadata || categoryExists) return;
 
-    const nextId = discountCategories.length
-      ? Math.max(...discountCategories.map(item => item.id)) + 1
-      : 1;
-
-    discountCategories.push({
-      id: nextId,
-      category: categoryName,
-      minQty: minimumQuantity,
-      discount,
-      products: 0,
-    });
-
-    categoryNameInput.value = '';
-    minimumQuantityInput.value = '';
-    discountInput.value = '';
+    if (editState.d3 === null) {
+      const nextId = discountCategories.length ? Math.max(...discountCategories.map(item => item.id)) + 1 : 1;
+      discountCategories.push({ id: nextId, category: categoryName, minQty: minimumQuantity, discount, products: 0, ...metadata });
+    } else {
+      const existing = discountCategories[editState.d3];
+      discountCategories[editState.d3] = { ...existing, category: categoryName, minQty: minimumQuantity, discount, ...metadata };
+    }
+    closeRuleForm('d3');
     renderDiscountCategories();
   });
 
