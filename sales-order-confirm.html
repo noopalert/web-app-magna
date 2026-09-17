@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20252a">
+  <title>Konfirmasi Sales Order — SO00341829</title>
+  <style>
+    :root {
+      --ink: #20252a;
+      --muted: #697178;
+      --line: #dfe3e6;
+      --soft: #f5f6f7;
+      --paper: #ffffff;
+      --success: #197443;
+      --success-soft: #eaf7f0;
+      --danger: #b43745;
+      --shadow: 0 20px 60px rgba(22, 28, 32, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #edf0f1;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto;
+    }
+
+    .customer-note {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+      padding: 14px 18px;
+      color: #f7f8f8;
+      background: var(--ink);
+      border-radius: 14px;
+    }
+
+    .customer-note strong { display: block; margin-bottom: 3px; }
+    .customer-note span { color: #c8ced2; font-size: 12px; }
+
+    .status-badge {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      color: #8a5800;
+      background: #fff3d4;
+      border: 1px solid #efd59a;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .status-badge.confirmed {
+      color: var(--success);
+      background: var(--success-soft);
+      border-color: #b9dfca;
+    }
+
+    .order-paper {
+      min-height: 780px;
+      padding: 44px 48px;
+      background: var(--paper);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .order-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 22px;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    .company { display: flex; align-items: flex-start; gap: 14px; }
+    .company-logo {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--ink);
+      border-radius: 12px;
+    }
+    .company-logo svg { width: 25px; height: 25px; }
+    .company h1 { margin: 1px 0 5px; font-size: 19px; line-height: 1.2; }
+    .company p, .order-number p { margin: 2px 0; color: var(--muted); font-size: 11.5px; }
+
+    .order-number { min-width: 190px; text-align: right; }
+    .order-number .label { font-size: 18px; font-weight: 850; letter-spacing: .08em; }
+    .order-number .number { margin-top: 4px; font-size: 15px; font-weight: 800; }
+
+    .party-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .party-grid strong { font-size: 14px; }
+    .party-grid p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+
+    .table-scroll { overflow-x: auto; }
+    .order-table { width: 100%; min-width: 760px; border-collapse: collapse; }
+    .order-table th {
+      padding: 16px 10px 10px;
+      color: var(--muted);
+      border-bottom: 1.5px solid var(--ink);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+    .order-table th:first-child, .order-table td:first-child { padding-left: 0; text-align: left; }
+    .order-table th:last-child, .order-table td:last-child { padding-right: 0; }
+    .order-table td {
+      padding: 14px 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      text-align: right;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .order-table .item-name { font-size: 13px; font-weight: 750; white-space: normal; }
+    .order-table .sku { margin-top: 3px; color: var(--muted); font-size: 10.5px; }
+    .order-table .amount { font-weight: 800; }
+
+    .promo-title {
+      padding: 18px 0 5px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .promo-row {
+      display: grid;
+      grid-template-columns: 1fr auto 120px;
+      gap: 24px;
+      align-items: center;
+      padding: 10px 0 15px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+    .promo-row strong { display: block; }
+    .promo-row small { color: var(--muted); }
+    .free { color: var(--success); font-weight: 850; text-align: right; }
+
+    .summary {
+      width: min(440px, 100%);
+      margin: 20px 0 0 auto;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 6px 0;
+      color: #4e555a;
+      font-size: 12px;
+    }
+    .summary-row.grand {
+      margin-top: 5px;
+      padding-top: 13px;
+      color: var(--ink);
+      border-top: 2px solid var(--ink);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .confirmation-info {
+      display: none;
+      margin-top: 30px;
+      padding: 15px 17px;
+      color: var(--success);
+      background: var(--success-soft);
+      border: 1px solid #b9dfca;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    .confirmation-info.show { display: block; }
+    .confirmation-info strong { display: block; margin-bottom: 3px; font-size: 13px; }
+
+    .document-note {
+      margin-top: 42px;
+      padding-top: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 10.5px;
+      text-align: center;
+    }
+
+    .action-bar {
+      position: sticky;
+      bottom: 16px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(22,28,32,.12);
+      backdrop-filter: blur(14px);
+    }
+    .btn {
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--ink);
+      background: white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { color: white; background: var(--ink); border-color: var(--ink); }
+    .btn.success { color: white; background: var(--success); border-color: var(--success); }
+    .btn:disabled { cursor: not-allowed; opacity: .6; transform: none; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(19, 24, 27, .58);
+    }
+    .modal-backdrop.open { display: grid; }
+    .modal {
+      width: min(480px, 100%);
+      padding: 24px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .modal h2 { margin: 0 0 8px; font-size: 19px; }
+    .modal > p { margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .field label { display: block; margin-bottom: 7px; font-size: 11px; font-weight: 800; }
+    .field input[type="text"] {
+      width: 100%;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid #cfd5d9;
+      border-radius: 9px;
+      outline: none;
+    }
+    .field input[type="text"]:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(32,37,42,.08); }
+    .agreement {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--soft);
+      border-radius: 10px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .agreement input { width: 17px; height: 17px; margin-top: 1px; accent-color: var(--ink); }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+    .error { min-height: 18px; margin-top: 8px; color: var(--danger); font-size: 11px; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 86px;
+      z-index: 30;
+      padding: 10px 14px;
+      color: white;
+      background: var(--ink);
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 10px);
+      transition: .2s ease;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 720px) {
+      .page-shell { width: 100%; margin: 0; }
+      .customer-note { margin: 0; border-radius: 0; }
+      .order-paper { min-height: 100vh; padding: 26px 18px 120px; border-radius: 0; box-shadow: none; }
+      .order-header { flex-direction: column; }
+      .order-number { min-width: 0; text-align: left; }
+      .party-grid { grid-template-columns: 1fr; gap: 20px; }
+      .action-bar { position: fixed; right: 10px; bottom: 10px; left: 10px; margin: 0; }
+      .action-bar .btn { flex: 1; padding-inline: 10px; }
+      .promo-row { grid-template-columns: 1fr auto auto; gap: 12px; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 12mm; }
+      body { background: white; font-size: 11px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .page-shell { width: 100%; margin: 0; }
+      .customer-note, .action-bar, .modal-backdrop, .toast { display: none !important; }
+      .order-paper { min-height: 0; padding: 0; border-radius: 0; box-shadow: none; }
+      .table-scroll { overflow: visible; }
+      .order-table { min-width: 0; }
+      .order-table th { font-size: 8px; }
+      .order-table td { padding: 9px 6px; font-size: 9px; }
+      .order-table .item-name { font-size: 10px; }
+      .document-note { margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="customer-note">
+      <div>
+        <strong>Konfirmasi Sales Order</strong>
+        <span>Periksa detail pesanan sebelum melakukan konfirmasi.</span>
+      </div>
+      <div class="status-badge" id="statusBadge">Menunggu konfirmasi</div>
+    </div>
+
+    <main class="order-paper">
+      <header class="order-header">
+        <div class="company">
+          <div class="company-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4-8 4-8-4 8-4Z"/><path d="m4 11 8 4 8-4"/><path d="m4 15 8 4 8-4"/></svg>
+          </div>
+          <div>
+            <h1>PT Magna Distribusi Nusantara</h1>
+            <p>Jl. Majapahit No. 214, Semarang 50249 · 024–8455 120</p>
+            <p>NPWP 01.234.567.8–503.000</p>
+          </div>
+        </div>
+        <div class="order-number">
+          <div class="label">SALES ORDER</div>
+          <div class="number">SO00341829</div>
+          <p>12 September 2026, 09:14</p>
+        </div>
+      </header>
+
+      <section class="party-grid">
+        <div>
+          <div class="eyebrow">Ditagihkan kepada</div>
+          <strong>PT Karya Bangun Jaya</strong>
+          <p>Jl. Sudirman No. 45, Jakarta Selatan</p>
+        </div>
+        <div>
+          <div class="eyebrow">Salesman</div>
+          <strong>Budi Santoso</strong>
+          <p>Cabang Semarang</p>
+        </div>
+      </section>
+
+      <div class="table-scroll">
+        <table class="order-table">
+          <thead>
+            <tr><th>Deskripsi Barang</th><th>Qty</th><th>Harga</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>Jumlah</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="item-name">Diamond Wheel 4&quot;</div><div class="sku">SKU-DW04</div></td>
+              <td>8 Box</td><td>Rp3.000.000</td><td>10%</td><td>5%</td><td>0%</td><td>0%</td><td class="amount">Rp20.400.000</td>
+            </tr>
+            <tr>
+              <td><div class="item-name">Mesin Grinder GX-500</div><div class="sku">SKU-GX500</div></td>
+              <td>5 Unit</td><td>Rp1.250.000</td><td>5%</td><td>0%</td><td>0%</td><td>0%</td><td class="amount">Rp5.937.500</td>
+            </tr>
+            <tr>
+              <td><div class="item-name">Kacamata Safety Clear</div><div class="sku">SKU-KS01</div></td>
+              <td>6 Box</td><td>Rp240.000</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td><td class="amount">Rp1.440.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="promo-title">Barang free (promosi) — tidak ditagihkan</div>
+      <div class="promo-row">
+        <div><strong>Kaos Promo Magna</strong><small>MRC-KAOS</small></div>
+        <div>2 Pcs</div>
+        <div class="free">GRATIS</div>
+      </div>
+
+      <section class="summary" aria-label="Ringkasan pembayaran">
+        <div class="summary-row"><span>Subtotal</span><span>Rp27.777.500</span></div>
+        <div class="summary-row"><span>Dasar Pengenaan Pajak</span><span>Rp27.777.500</span></div>
+        <div class="summary-row"><span>PPN 11%</span><span>Rp3.055.525</span></div>
+        <div class="summary-row grand"><span>Grand Total</span><span>Rp30.833.025</span></div>
+      </section>
+
+      <section class="confirmation-info" id="confirmationInfo">
+        <strong>Pesanan telah dikonfirmasi</strong>
+        <span id="confirmationDetail"></span>
+      </section>
+
+      <footer class="document-note">Dokumen ini dibuat otomatis oleh Magna Sales Track · Data ditampilkan dari Sales Order pada mobile app.</footer>
+    </main>
+
+    <div class="action-bar" aria-label="Aksi sales order">
+      <button class="btn" type="button" id="shareButton">Bagikan</button>
+      <button class="btn" type="button" id="pdfButton">Export PDF</button>
+      <button class="btn success" type="button" id="confirmButton">Confirm Pesanan</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">Konfirmasi Pesanan</h2>
+      <p>Pastikan seluruh barang, jumlah, diskon, pajak, dan total pesanan sudah sesuai.</p>
+      <div class="field">
+        <label for="customerName">Nama penerima / PIC customer</label>
+        <input type="text" id="customerName" placeholder="Masukkan nama lengkap">
+      </div>
+      <label class="agreement">
+        <input type="checkbox" id="agreementCheck">
+        <span>Saya menyatakan detail Sales Order ini sudah benar dan menyetujui pesanan untuk diproses.</span>
+      </label>
+      <div class="error" id="confirmError" aria-live="polite"></div>
+      <div class="modal-actions">
+        <button class="btn" type="button" id="cancelConfirm">Batal</button>
+        <button class="btn primary" type="button" id="submitConfirm">Ya, Konfirmasi</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const orderNumber = 'SO00341829';
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmButton = document.getElementById('confirmButton');
+    const customerName = document.getElementById('customerName');
+    const agreementCheck = document.getElementById('agreementCheck');
+    const confirmError = document.getElementById('confirmError');
+    const statusBadge = document.getElementById('statusBadge');
+    const confirmationInfo = document.getElementById('confirmationInfo');
+    const confirmationDetail = document.getElementById('confirmationDetail');
+    const toast = document.getElementById('toast');
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function closeModal() {
+      confirmModal.classList.remove('open');
+      confirmError.textContent = '';
+    }
+
+    confirmButton.addEventListener('click', () => {
+      confirmModal.classList.add('open');
+      window.setTimeout(() => customerName.focus(), 50);
+    });
+
+    document.getElementById('cancelConfirm').addEventListener('click', closeModal);
+    confirmModal.addEventListener('click', event => {
+      if (event.target === confirmModal) closeModal();
+    });
+
+    document.getElementById('submitConfirm').addEventListener('click', () => {
+      const name = customerName.value.trim();
+      if (!name) {
+        confirmError.textContent = 'Nama penerima wajib diisi.';
+        customerName.focus();
+        return;
+      }
+      if (!agreementCheck.checked) {
+        confirmError.textContent = 'Centang persetujuan sebelum mengonfirmasi.';
+        return;
+      }
+
+      const confirmedAt = new Intl.DateTimeFormat('id-ID', {
+        dateStyle: 'long', timeStyle: 'short'
+      }).format(new Date());
+
+      statusBadge.textContent = 'Sudah dikonfirmasi';
+      statusBadge.classList.add('confirmed');
+      confirmationDetail.textContent = `${name} mengonfirmasi ${orderNumber} pada ${confirmedAt}.`;
+      confirmationInfo.classList.add('show');
+      confirmButton.textContent = 'Pesanan Terkonfirmasi';
+      confirmButton.disabled = true;
+      closeModal();
+      showToast('Pesanan berhasil dikonfirmasi.');
+
+      // Integrasi backend:
+      // await fetch(`/api/sales-orders/${orderNumber}/confirm`, {
+      //   method: 'POST', headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify({confirmed_by: name})
+      // });
+    });
+
+    document.getElementById('pdfButton').addEventListener('click', () => window.print());
+
+    document.getElementById('shareButton').addEventListener('click', async () => {
+      const shareData = {
+        title: `Sales Order ${orderNumber}`,
+        text: `Silakan periksa dan konfirmasi Sales Order ${orderNumber} dari PT Magna Distribusi Nusantara.`,
+        url: window.location.href
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+          return;
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(shareData.url);
+        } else {
+          const helper = document.createElement('textarea');
+          helper.value = shareData.url;
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand('copy');
+          helper.remove();
+        }
+        showToast('Link Sales Order disalin.');
+      } catch (error) {
+        if (error.name !== 'AbortError') showToast('Link belum dapat dibagikan.');
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

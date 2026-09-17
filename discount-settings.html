@@ -6,6 +6,44 @@
 <script>!function(){const e=localStorage.getItem('magna-theme');document.documentElement.dataset.theme='light'===e||'dark'===e?e:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}();</script>
 <title>Magna Hardware — Discount Settings</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* Discount 1: kept here as critical layout CSS so an older cached
+     styles.css cannot collapse Product and Customer into one column. */
+  .discount-one-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-areas:
+      "product customer"
+      "product-form product-form" !important;
+    column-gap: 18px;
+    row-gap: 16px;
+    align-items: start;
+    width: 100%;
+  }
+  .discount-one-grid > .discount-product-column {
+    grid-area: product;
+    min-width: 0;
+  }
+  .discount-one-grid > .discount-customer-column {
+    grid-area: customer;
+    min-width: 0;
+  }
+  .discount-one-grid > .discount-product-form {
+    grid-area: product-form;
+    min-width: 0;
+    margin-top: 0;
+  }
+  /* Stack only on phone-sized screens. Laptop widths stay side-by-side. */
+  @media (max-width: 720px) {
+    .discount-one-grid {
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-areas:
+        "product"
+        "customer"
+        "product-form" !important;
+    }
+  }
+</style>
 <script src="theme.js" defer></script>
 </head>
 <body>
@@ -61,16 +99,16 @@
     <section class="panel">
       <div class="panel-head">
         <div>
-          <h3>Discount Setting 1 — Product</h3>
-          <div class="sub">Attach a base discount directly to an individual product.</div>
+          <h3>Discount Setting 1 — Product &amp; Customer</h3>
+          <div class="sub">Manage product discount rules and view customer discounts synchronized from Acumatica.</div>
         </div>
         <span class="tag" id="d1-count-tag">0 Rules</span>
       </div>
-      <!-- Per Product -->
-      <div class="panel" style="background:transparent;border:none;padding:0;">
-        <div class="panel-head" style="margin-bottom:12px;">
-          <h3 style="font-size:13.5px;">Discount by Product</h3>
-          <div class="panel-head-actions"><button type="button" class="section-add-btn" data-form-open="product">+ Add Rule</button></div>
+      <div class="split-grid discount-one-grid">
+        <div class="panel discount-product-column" style="background:transparent;border:none;padding:0;margin-bottom:0;">
+        <div class="panel-head discount-column-head" style="margin-bottom:12px;">
+          <div><h3 style="font-size:13.5px;">Discount by Product</h3><div class="sub">Managed manually · Editable</div></div>
+          <div class="panel-head-actions"><span class="tag">Priority 1</span><button type="button" class="section-add-btn" data-form-open="product">+ Add Rule</button></div>
         </div>
         <div class="mini-table-wrap">
           <table>
@@ -78,7 +116,21 @@
             <tbody id="product-tbody"></tbody>
           </table>
         </div>
-        <div class="rule-entry-form collapsible-rule-form" id="product-form" hidden>
+        </div>
+
+        <div class="panel discount-customer-column" style="background:transparent;border:none;padding:0;margin-bottom:0;">
+          <div class="panel-head discount-column-head" style="margin-bottom:12px;">
+            <div><h3 style="font-size:13.5px;">Discount by Customer</h3><div class="sub">Synced from Acumatica · View only</div></div>
+            <div class="panel-head-actions"><span class="tag">Priority 2</span></div>
+          </div>
+          <div class="mini-table-wrap">
+            <table>
+              <thead><tr><th>Nama Customer</th><th>Discount</th><th></th></tr></thead>
+              <tbody id="customer-view-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      <div class="rule-entry-form collapsible-rule-form discount-product-form" id="product-form" hidden>
           <div class="inline-form-head"><strong id="product-form-title">Add Product Discount</strong><button type="button" class="form-close" data-form-close="product" aria-label="Close form">&times;</button></div>
           <div class="add-row">
             <div class="field">
@@ -116,7 +168,7 @@
               </label>
             </div>
           </div>
-        </div>
+      </div>
       </div>
     </section>
 
@@ -362,40 +414,51 @@
     { name: 'Bosch GSB 13 RE Impact Drill', discount: '10%', startAt: '2026-09-09', expiredAt: '2026-10-09', isActive: true, createdBy: 'Rusdi' },
     { name: 'Krisbow Safety Helmet', discount: '8%', startAt: '2026-09-10', expiredAt: '2026-09-30', isActive: true, createdBy: 'Rusdi' },
   ];
-  function renderMiniTable(tbodyId, rows, emptyLabel, type, rerender) {
-    const tbody = document.getElementById(tbodyId);
-    if (rows.length === 0) {
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="3">${emptyLabel}</td></tr>`;
-      return;
-    }
-    tbody.innerHTML = rows.map((r, i) => `
-      <tr>
-        <td class="cell-strong">${r.name}${ruleMeta(r)}</td>
-        <td>${r.discount}</td>
-        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table row-edit" data-i="${i}">Edit</button><button type="button" class="row-remove" data-i="${i}" aria-label="Delete">&times;</button></div></td>
-      </tr>
-    `).join('');
-    tbody.querySelectorAll('.row-edit').forEach(btn => {
-      btn.addEventListener('click', () => editDiscount1(type, Number(btn.dataset.i)));
-    });
-    tbody.querySelectorAll('.row-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
-        rows.splice(Number(btn.dataset.i), 1);
-        closeRuleForm(type);
-        rerender();
-      });
-    });
-  }
+  const customerViewRows = [
+    { name: 'CV Sumber Jaya Bangunan', discount: '5%', startAt: '2026-09-09', expiredAt: '2026-12-31', isActive: true, createdBy: 'Rusdi' },
+    { name: 'Toko Berkah Teknik', discount: '7%', startAt: '2026-09-15', expiredAt: '2026-10-15', isActive: true, createdBy: 'Dina' },
+  ];
 
   function updateCountTag() {
-    document.getElementById('d1-count-tag').textContent = productRows.length + ' Rules';
+    document.getElementById('d1-count-tag').textContent = (productRows.length + customerViewRows.length) + ' Rules';
   }
 
   function renderProductTable() {
-    renderMiniTable('product-tbody', productRows, 'Belum ada discount per barang.', 'product', renderProductTable);
+    const tbody = document.getElementById('product-tbody');
+    tbody.innerHTML = productRows.length ? productRows.map((row, index) => `
+      <tr>
+        <td class="cell-strong">${row.name}${ruleMeta(row)}</td>
+        <td>${row.discount}</td>
+        <td class="action-cell"><div class="row-actions"><button type="button" class="btn-table row-edit" data-i="${index}">Edit</button><button type="button" class="row-remove" data-i="${index}" aria-label="Delete">&times;</button></div></td>
+      </tr>
+    `).join('') : '<tr class="empty-row"><td colspan="3">Belum ada discount per barang.</td></tr>';
+
+    tbody.querySelectorAll('.row-edit').forEach(button => {
+      button.addEventListener('click', () => editDiscount1(Number(button.dataset.i)));
+    });
+    tbody.querySelectorAll('.row-remove').forEach(button => {
+      button.addEventListener('click', () => {
+        productRows.splice(Number(button.dataset.i), 1);
+        closeRuleForm('product');
+        renderProductTable();
+      });
+    });
     updateCountTag();
   }
-  function editDiscount1(type, index) {
+
+  function renderCustomerViewTable() {
+    const tbody = document.getElementById('customer-view-tbody');
+    tbody.innerHTML = customerViewRows.length ? customerViewRows.map(row => `
+      <tr>
+        <td class="cell-strong">${row.name}${ruleMeta(row)}</td>
+        <td>${row.discount}</td>
+        <td></td>
+      </tr>
+    `).join('') : '<tr class="empty-row"><td colspan="3">Belum ada customer discount dari Acumatica.</td></tr>';
+    updateCountTag();
+  }
+
+  function editDiscount1(index) {
     const row = productRows[index];
     document.getElementById('product-select').value = row.name;
     document.getElementById('product-discount').value = row.discount;
@@ -417,6 +480,7 @@
   });
 
   renderProductTable();
+  renderCustomerViewTable();
 
   /* ---------- DISCOUNT 2 : product + minimum quantity ---------- */
   const d2Rows = [

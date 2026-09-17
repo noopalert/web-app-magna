@@ -1237,6 +1237,32 @@ tbody tr:hover {
 }
 
 /* ===================== MANAGEMENT WORKFLOWS ===================== */
+.split-grid,
+.discount-one-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "product customer"
+    "product-form product-form";
+  gap: 18px;
+  align-items: start;
+}
+.split-grid > .discount-product-column,
+.discount-one-grid > .discount-product-column { grid-area: product; min-width: 0; }
+.split-grid > .discount-customer-column,
+.discount-one-grid > .discount-customer-column { grid-area: customer; min-width: 0; }
+.split-grid > .discount-product-form,
+.discount-one-grid > .discount-product-form { grid-area: product-form; min-width: 0; margin-top: 0; }
+.discount-column-head {
+  min-height: 48px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+.discount-column-head .panel-head-actions {
+  padding-top: 0;
+  flex: 0 0 auto;
+}
+
 .priority-notice { margin: 0 0 22px; border-left: 3px solid var(--accent); }
 .lifecycle-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: end; }
 .lifecycle-grid-detail { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-soft); }
@@ -1286,10 +1312,6 @@ tbody tr:hover {
 
 
 @media (max-width: 980px) {
-  .split-grid {
-    grid-template-columns: 1fr;
-  }
-
   .tier-fields {
     grid-template-columns: 1fr;
   }
@@ -1313,6 +1335,17 @@ tbody tr:hover {
   .commission-form-actions { flex-wrap: wrap; }
   .approval-filters { min-width: 100%; flex-direction: column; }
   .approval-filters select { width: 100%; }
+}
+
+@media (max-width: 720px) {
+  .split-grid,
+  .discount-one-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "product"
+      "customer"
+      "product-form";
+  }
 }
 
 @media (max-width: 980px) {
